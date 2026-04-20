@@ -1,0 +1,26 @@
+Django==4.2.21
+
+# Admin
+django-jazzmin==3.0.1
+
+# Models / DB
+django-model-utils==5.0.0
+psycopg2-binary==2.9.10
+
+# Images / Files
+Pillow==11.1.0
+
+# Assets
+whitenoise==6.9.0
+
+
+# Google Drive Sync
+google-api-python-client==2.131.0
+google-auth==2.30.0
+google-auth-httplib2==0.2.0
+
+# Utils
+requests==2.32.3
+python-slugify==8.0.4
+Markdown==3.6
+pytz==2025.1

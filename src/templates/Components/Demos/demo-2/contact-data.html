@@ -1,0 +1,10 @@
+{% for item in contacts %}
+    <div class="item">
+        <h4 class="subtitle p-relative line-shap  line-shap-after mb-15 text-uppercase">
+            <span class="p-10 background-main "> {{ item.title }}</span>
+        </h4>
+        <p class="sm-title-block">{{ item.name }} <br> {{ item.name2 }}</p>
+
+        <a href="tel:123-456-7890" class="mt-15 theme-color"><i class="fas fa-mobile"></i> <span class="ml-5">{{ item.info }}</span></a>
+    </div>
+{% endfor %}

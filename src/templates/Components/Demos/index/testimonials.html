@@ -1,0 +1,19 @@
+{% for item in testimonials %}
+    <div class="swiper-slide testimonial-item">
+        <p class="subtitle p-relative line-shap  line-shap-after mb-15">
+            <span class="pl-10 pr-10 background-section dsn-load-animate">{{ item.title }}</span>
+        </p>
+        <p>"{{ item.desc }}"</p>
+
+        <div class="author-box d-flex align-items-center mt-20">
+            <div class="avatar mr-15">
+                <img class="cover-bg-img" src="{{ item.img }}" alt="">
+            </div>
+
+            <div class="author-text">
+                <h4 class="sm-title-block mb-10">{{ item.name }}</h4>
+                <h5>{{ item.type }}</h5>
+            </div>
+        </div>
+    </div>
+{% endfor %}

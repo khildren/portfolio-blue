@@ -1,0 +1,9 @@
+.env
+pgdata/
+staticfiles/
+media/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+gdrive_credentials.json

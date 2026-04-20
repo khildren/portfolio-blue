@@ -1,0 +1,317 @@
+{% extends "Base/base.html" %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax dsn-ajax">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <!-- Slider Parallax -->
+            <header class="dsn-slider main-slider demo-2 background-section content-left has-horizontal p-relative w-100 h-100-v dsn-header-animation v-dark-head-mobile">
+                <div class="content-slider p-relative w-100 h-100 over-hidden">
+                    <div class="bg-container dsn-hero-parallax-img p-relative h-100">
+                        <div class="slide-inner h-100">
+                            <div class="swiper-wrapper">
+
+                                <!-- Components/Demos/demo-2/slides-project.html -->
+                                {% include 'Components/Demos/demo-2/slides-project.html' %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dsn-slider-content p-absolute h-100 z-index-2">
+                        <div class="dsn-container d-flex align-items-center "></div>
+                    </div>
+                </div>
+                <div class="control-nav  dsn-load-animate p-absolute d-flex justify-content-center  dsn-container v-dark-head">
+                    <div class="prev-container">
+                        <div class="container-inner">
+                            <div class="triangle"></div>
+                            <svg class="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                    <circle cx="12" cy="12" r="10.5"></circle>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="slider-counter d-flex align-items-center">
+                        <span class="slider-current-index">1</span>
+                        <span class="slider-counter-delimiter"></span>
+                        <span class="slider-total-index">5</span>
+                    </div>
+
+                    <div class="next-container d-flex align-items-end">
+                        <div class="container-inner">
+                            <div class="triangle"></div>
+                            <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                    <circle cx="12" cy="12" r="10.5"></circle>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="progress-nav dsn-container">
+                    <div class="progress-w">
+                        <div class="progress-w-affter"></div>
+                    </div>
+                </div>
+            </header>
+            <!-- End Slider Parallax -->
+
+            <div class="wrapper">
+                <section class="about-us section-margin">
+                    <div class="container">
+
+                        <!-- Components/Demos/demo-2/about-studio.html -->
+                        {% include 'Components/Demos/demo-2/about-studio.html' %}
+
+                    </div>
+                </section>
+
+                <div class="our-services section-padding v-dark">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">OUR SERVICES</h5>
+                        <h2 class="section-title text-uppercase">What <strong> Can We <br> Offer </strong>
+                        </h2>
+                    </div>
+                    <div class="container">
+                        <div class="d-grid grid-lg-3 grid-md-2 d-grid-no-space">
+
+                            <!-- Components/Demos/demo-2/services-item.html -->
+                            {% include 'Components/Demos/demo-2/services-item.html' %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <section class="our-work dsn-swiper over-hidden" data-dsn-option='{"slidesPerView":"auto","centeredSlides":false , "spaceBetween":60  }'>
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 order-lg-2">
+                                <div class="box-info mt-md-section">
+                                    <div class=" p-relative sm-mb-title">
+                                        <h5 class="sub-heading mb-15 pb-15">Our Work</h5>
+                                        <h2 class="section-title text-uppercase mb-30">
+                                            Creative <strong> Portfolio Designs</strong>
+                                        </h2>
+                                        <p>To avoid your boss’s staring eye, you should not roll your eyes to check the time. The Time Tag Watch is a consummately appropriate for it. </p>
+                                    </div>
+
+                                    <div class="dsn-pagination">
+                                        <div class="swiper-prev slider-button-prev">
+                                            <svg class="border-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 104 104">
+                                                <defs>
+                                                    <circle id="a" cx="52" cy="52" r="52" />
+                                                    <mask x="0" y="0">
+                                                        <path d="M0 0h104v104H0z" />
+                                                        <use fill="#fff" xlink:href="#a" />
+                                                    </mask>
+                                                </defs>
+                                                <use fill-opacity="0" stroke="#666" stroke-dasharray="4 6 4 6" stroke-width="2" mask="url(#b)" xlink:href="#a" />
+                                            </svg>
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28.214" height="23.057" viewBox="0 0 28.214 23.057">
+                                                <g fill="none" stroke="#fff" stroke-linecap="square" stroke-width="1.5">
+                                                    <path d="M23.528 11.685h-20M16.685 19.528l8-8-8-8" />
+                                                </g>
+                                            </svg>
+                                        </div>
+
+                                        <div class="swiper-next slider-button-next">
+                                            <svg class="border-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 104 104">
+                                                <defs>
+                                                    <circle id="d" cx="52" cy="52" r="52" />
+                                                    <mask x="0" y="0">
+                                                        <path d="M0 0h104v104H0z" />
+                                                        <use fill="#fff" xlink:href="#a" />
+                                                    </mask>
+                                                </defs>
+                                                <use fill-opacity="0" stroke="#666" stroke-dasharray="4 6 4 6" stroke-width="2" mask="url(#b)" xlink:href="#a" />
+                                            </svg>
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.214 23.057">
+                                                <g fill="none" stroke="#fff" stroke-linecap="square" stroke-width="1.5">
+                                                    <path d="M23.528 11.685h-20M16.685 19.528l8-8-8-8" />
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-8 ">
+                                <div class="our-work-slider section-padding sm-dsn-container ">
+                                    <div class="mask-bg"></div>
+                                    <div class="swiper-container" dir="rtl">
+                                        <div class="swiper-wrapper">
+
+                                            <!-- Components/Demos/demo-2/our-work.html -->
+                                            {% include 'Components/Demos/demo-2/our-work.html' %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="testimonials v-dark section-padding p-relative dsn-swiper" data-dsn-controller=".testimonial-content" data-dsn-option='{"autoHeight" : "auto"}'>
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">awesome partner</h5>
+                        <h2 class="section-title text-uppercase">What <strong>People <br> Say</strong>
+                        </h2>
+                    </div>
+
+                    <div class="container">
+                        <div class="testimonials-inner">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+
+                                    <!-- Components/Demos/demo-2/partners.html -->
+                                    {% include 'Components/Demos/demo-2/partners.html' %}
+
+                                </div>
+
+                                <div class="dsn-pagination mt-30 d-flex justify-content-between">
+                                    <div class="swiper-next">
+                                        <div class="next-container">
+                                            <div class="container-inner">
+                                                <div class="triangle"></div>
+                                                <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                                        <circle cx="12" cy="12" r="10.5"></circle>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                    <div class="swiper-prev">
+                                        <div class="prev-container">
+                                            <div class="container-inner">
+                                                <div class="triangle"></div>
+                                                <svg class="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                                        <circle cx="12" cy="12" r="10.5"></circle>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pricing section-padding p-relative cover-bg" data-image-src="{% static 'app/img/project/project1/1.jpg' %}" data-overlay="7">
+                    <div class="container mb-70 p-relative v-dark-head">
+                        <h5 class="sub-heading mb-15 pb-15">PRICING PLANS</h5>
+                        <h2 class="section-title text-uppercase">Choose<strong> Your Perfect <br> Plan</strong>
+                        </h2>
+                    </div>
+
+                    <div class="container">
+                        <div class="d-grid grid-lg-3 grid-md-2">
+
+                            <!-- Components/Demos/demo-2/pricing.html -->
+                            {% include 'Components/Demos/demo-2/pricing.html' %}
+
+                        </div>
+                    </div>
+                </section>
+
+                <div class="our-blog p-relative section-padding background-section">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">our blog</h5>
+                        <h2 class="section-title text-uppercase">
+                            Read <strong> Our Latest News</strong>
+                        </h2>
+                    </div>
+                    <div class="container">
+                        <div class="d-grid grid-md-3 grid-sm-2">
+                            
+                            <!-- Components/Demos/index/blog.html -->
+                            {% include 'Components/Demos/index/blog.html' %}
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <section class="contact-up section-padding v-dark background-section">
+                    <div class="container mb-50 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">Contact Us</h5>
+                        <h2 class="section-title text-uppercase">
+                            Arctit <strong> Studio</strong>
+                        </h2>
+
+                        <p class="sm-title-block pb-50 border-bottom mt-20">We are always interested in looking at the possibilities together. If you have any questions or would like general information, please do not hesitate to contact us. We are happy to talk to you.</p>
+                    </div>
+
+                    <div class="container">
+
+                        <div class="d-grid grid-md-3 grid-sm-2 mt-50 pb-50 border-bottom">
+                            
+                            <!-- Components/Demos/demo-2/contact-data.html -->
+                            {% include 'Components/Demos/demo-2/contact-data.html' %}
+
+                        </div>
+
+                        <form class="form w-100 mt-50">
+                            <p class="mb-0" id="error-msg"></p>
+                            <div id="simple-msg"></div>
+                            <div class="input__wrap controls row">
+                                <div class="col-md-6 form-group">
+                                    <div class="entry-box">
+                                        <label for="name">Name</label>
+                                        <input name="name" id="name" type="text" class="mt-2 form-control" placeholder="Enter your full name">
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="entry-box">
+                                        <label for="email">Email</label>
+                                        <input name="email" id="email" type="email" class="mt-2 form-control" placeholder="Enter your email address">
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <div class="entry-box">
+                                        <label for="comments">Message</label>
+                                        <textarea name="comments" id="comments" class="mt-2 form-control" placeholder="Enter your message"></textarea>
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <div class="image-zoom w-auto d-inline-block move-circle inner-btn v-dark-head" data-dsn="parallax">
+                                        <button class="dsn-btn v-dark text-uppercase" type="submit" id="submit" name="send">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </section>
+            </div>
+
+            <!-- Footer2 Section -->
+            {% include 'Base/footer2.html' %}
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

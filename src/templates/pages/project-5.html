@@ -1,0 +1,200 @@
+{% extends "Base/base.html" %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <header class="header-project p-relative h-100-v over-hidden dsn-header-animation v-dark-head">
+                <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d w-100 h-100 bg-container over-hidden" data-overlay="5">
+                    <img class="cover-bg-img " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/1-sm.jpg' %}" data-dsn-srcset="{% static 'app/img/project/project5/1.jpg' %} 1800w,{% static 'app/img/project/project5/1-sm.jpg' %} 768w" alt="">
+                </div>
+
+                <div class="container d-flex align-items-center justify-content-center text-center h-100 p-relative dsn-z-index-2 pb-80">
+                    <div class="content p-relative dsn-hero-parallax-fill">
+                        <div class="intro-project w-100">
+                            <div class="intro-title">
+                                <div class="metas d-inline-block mb-25">
+                                    <span>living</span><span>Architecture</span>
+                                </div>
+
+                                <div class="hero-title dsn-load-animate ">
+
+                                    <div class="d-inline-block">
+                                        <h1 class="title" data-dsn-ajax="title">
+                                            Living room design
+                                        </h1>
+                                        <h5 class="title title-fill ">
+                                            Living room design house
+                                        </h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+
+            <div class="wrapper">
+
+                <div class="about-project section-margin">
+                    <div class="container">
+                        <div class="d-grid grid-half-1 grid-md-1">
+                            <div class="box-img">
+                                <img src="{% static 'app/img/project/project1/1.png' %}" alt="">
+                            </div>
+
+                            <div class="box-text">
+                                <div class="mb-30 p-relative">
+                                    <h5 class="sub-heading mb-15 pb-15">awesome partner</h5>
+                                    <h2 class="section-title text-uppercase">Design Brief</h2>
+                                </div>
+
+                                <p class="sm-title-block">Whether you are a company or an institution with a large portfolio of properties, Castell Management designs a set of solutions to meet your needs and investment objectives.</p>
+
+                                <a href="#" class="text-link mt-20 d-flex align-item-center">
+                                    <span class="text text-uppercase d-flex align-item-center">Viset site</span>
+                                    <span class="icon d-flex align-item-center justify-content-center">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;" xml:space="preserve">
+                                            <g>
+                                                <g>
+                                                    <path d="M388.425,241.951L151.609,5.79c-7.759-7.733-20.321-7.72-28.067,0.04c-7.74,7.759-7.72,20.328,0.04,28.067l222.72,222.105
+                                                    L123.574,478.106c-7.759,7.74-7.779,20.301-0.04,28.061c3.883,3.89,8.97,5.835,14.057,5.835c5.074,0,10.141-1.932,14.017-5.795
+                                                    l236.817-236.155c3.737-3.718,5.834-8.778,5.834-14.05S392.156,245.676,388.425,241.951z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dsn-container section-margin">
+                    <div class="img-box-small twentytwenty">
+                        <div class="box-img dark c-hidden">
+                            <img src="{% static 'app/img/project/project5/7.jpg' %}" alt="">
+                        </div>
+                        <div class="box-img light c-hidden">
+                            <img src="{% static 'app/img/project/project5/8.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="d-grid grid-md-2">
+                        <div class="">
+                            <h4 class="section-title text-uppercase">Credits</h4>
+                        </div>
+
+                        <div class="list-info-project border-left pl-30 h-100">
+                            <ul>
+
+                                <!-- Components/Pages/project-5/credits.html -->
+                                {% include 'Components/Pages/project-5/credits.html' %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dsn-container section-margin">
+                    <div class="d-grid grid-half-1 grid-md-1">
+                        <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                            <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/5.jpg' %}" alt="" data-dsn-move="20%">
+                        </div>
+
+                        <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                            <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/4.jpg' %}" alt="" data-dsn-move="20%">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-margin">
+                    <div class="container-fluid">
+                        <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                            <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/6.jpg' %}" alt="" data-dsn-move="20%">
+                            <div class="cap">
+                                <span>Web Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dsn-container section-margin">
+                    <div class="img-box-small twentytwenty">
+                        <div class="box-img dark c-hidden">
+                            <img src="{% static 'app/img/project/project5/2.jpg' %}" alt="">
+                        </div>
+                        <div class="box-img light c-hidden">
+                            <img src="{% static 'app/img/project/project5/3.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-margin">
+                    <div class="container-fluid">
+                        <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                            <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/9.jpg' %}" alt="" data-dsn-move="20%">
+                            <div class="cap">
+                                <span>Web Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-project section-margin">
+                    <div class="container">
+                        <div class="d-grid">
+                            <div class="box-text text-center">
+                                <div class="mb-30 p-relative">
+                                    <h5 class="sub-heading mb-15 pl-20 pb-15 ml-auto mr-auto text-center">
+                                        awesome partner
+                                    </h5>
+                                    <h2 class="section-title text-uppercase">interior visualization</h2>
+                                </div>
+
+                                <p class="sm-title-block max-w570 ml-auto mr-auto">Whether you are a company or an institution with a large portfolio of properties, Castell Management designs a set of solutions to meet your needs and investment objectives.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-project section-padding p-relative v-dark-head background-section">
+                    <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d bg-container over-hidden " data-overlay="5">
+                        <img class="cover-bg-img " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project1/1-sm.jpg' %}" data-dsn-srcset="{% static 'app/img/project/project1/1.jpg' %} 1800w,{% static 'app/img/project/project1/1-sm.jpg' %} 768w" alt="">
+                    </div>
+
+                    <div class="dsn-container dsn-z-index-2 p-relative h-100">
+                        <div class=" p-relative h-100 d-flex flex-column">
+                            <div class="intro-project w-100 h">
+                                <div class="intro-title text-center">
+                                    <div class="metas d-inline-block mb-25 ml-auto mr-auto ">
+                                        <span>house</span><span>Architecture</span>
+                                    </div>
+
+                                    <div class="hero-title">
+                                        <a href="{% url 'App:project_list_or_default' %}" class="d-inline-block" data-dsn-ajax="next">
+                                            <h1 class="title" >
+                                                Small modern house
+                                            </h1>
+                                            <h5 class="title title-fill " data-dsn-ajax="title">
+                                                Small modern house
+                                            </h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

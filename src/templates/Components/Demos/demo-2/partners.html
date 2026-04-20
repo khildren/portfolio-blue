@@ -1,0 +1,20 @@
+{% for item in partners %}
+    <div class="swiper-slide testimonial-item d-flex">
+        <div class="box-img">
+            <img class="cover-bg-img" src="{{ item.img }}" alt="">
+        </div>
+        <div class="box-content">
+            <p class="subtitle p-relative line-shap  line-shap-after mb-15">
+                <span class="pl-10 pr-10 background-section dsn-load-animate">
+                    {{ item.title }}
+                </span>
+            </p>
+
+            <p>"{{ item.desc }}"</p>
+            <div class="author mt-20">
+                <h5 class="sm-title-block">{{ item.name }}</h5>
+                <span class="mt-10 ">{{ item.type }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

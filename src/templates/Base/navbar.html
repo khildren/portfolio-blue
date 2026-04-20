@@ -1,0 +1,112 @@
+{% load static %}
+<!-- Loading Page -->
+<div class="preloader">
+    <div class="dsnload p-absolute">
+        <span class="dsnload__row">
+            <span class="dsnload__img">
+                <img src="{% static 'app/img/logo.png' %}" alt="">
+            </span>
+        </span>
+        <span class="dsnload__row dsnload__row--sibling">
+            <span class="dsnload__img">
+                <img src="{% static 'app/img/logo.png' %}" alt="">
+            </span>
+        </span>
+        <span class="dsnload__row dsnload__row--sibling">
+            <span class="dsnload__img">
+                <img src="{% static 'app/img/logo.png' %}" alt="">
+            </span>
+        </span>
+        <span class="dsnload__row dsnload__row--sibling">
+            <span class="dsnload__img">
+                <img src="{% static 'app/img/logo.png' %}" alt="">
+            </span>
+        </span>
+    </div>
+
+    <div class="loading-circle">
+        <p class="loading-count">
+            <span class="percent" id="loadingNumber">0</span>
+        </p>
+    </div>
+
+    <span class="loading-text text-uppercase mt-30">Loading ...</span>
+
+</div>
+<!-- End Loading Page -->
+
+<div class="site-header dsn-load-animate dsn-container">
+    <div class="extend-container d-flex w-100 align-items-baseline justify-content-between align-items-end">
+        <div class="inner-header p-relative">
+            <div class="main-logo">
+                <a href="{% url 'main:home' %}" data-dsn="parallax">
+                    <img class="light-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/logo.png' %}" alt="" />
+                    <img class="dark-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/logo-dark.png' %}" alt="" />
+                </a>
+            </div>
+        </div>
+        <div class="menu-icon d-flex align-items-baseline">
+            <div class="text-menu p-relative font-heading text-transform-upper">
+                <div class="p-absolute text-button">Menu</div>
+                <div class="p-absolute text-open">Open</div>
+                <div class="p-absolute text-close">Close</div>
+            </div>
+            <div class="icon-m" data-dsn="parallax" data-dsn-move="10">
+                <span class="menu-icon-line p-relative d-inline-block icon-top"></span>
+                <span class="menu-icon-line p-relative d-inline-block icon-center"></span>
+                <span class="menu-icon-line p-relative d-block icon-bottom"></span>
+            </div>
+        </div>
+        <nav class="accent-menu dsn-container main-navigation p-absolute w-100 d-flex align-items-baseline">
+            <div class="menu-cover-title">Menu</div>
+            <ul class="extend-container p-relative d-flex flex-column justify-content-center h-100">
+
+                <li>
+                    <a href="{% url 'main:home' %}" class="sub-menu-item">
+                        <span class="dsn-title-menu">Home</span>
+                        <span class="dsn-meta-menu">01</span>
+                        <span class="dsn-bg-arrow"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'main:about' %}" class="sub-menu-item">
+                        <span class="dsn-title-menu">About</span>
+                        <span class="dsn-meta-menu">02</span>
+                        <span class="dsn-bg-arrow"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'portfolio:project_list' %}" class="sub-menu-item">
+                        <span class="dsn-title-menu">Portfolio</span>
+                        <span class="dsn-meta-menu">03</span>
+                        <span class="dsn-bg-arrow"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'main:contact' %}" class="sub-menu-item user-no-selection">
+                        <span class="dsn-title-menu">Contact</span>
+                        <span class="dsn-meta-menu">04</span>
+                        <span class="dsn-bg-arrow"></span>
+                    </a>
+                </li>
+            </ul>
+            <div class="container-content p-absolute h-100 left-60 d-flex flex-column justify-content-center">
+                <div class="nav__info">
+                    <div class="nav-content">
+                        <p class="title-line">Studio</p>
+                        <p>Blue Solutions<br>Architecture &amp; Design</p>
+                    </div>
+                    <div class="nav-content">
+                        <p class="title-line">Contact</p>
+                        <p class="links over-hidden">
+                            <a href="{% url 'main:contact' %}" class="link-hover">Get in touch</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

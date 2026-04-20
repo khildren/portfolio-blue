@@ -1,0 +1,5 @@
+{% for item in sliders %}
+    <div class="swiper-slide over-hidden">
+        <img class="cover-bg-img {{ item.class }} image-bg" data-swiper-parallax="20%" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ item.img }}" data-dsn-srcset="{{ item.img2 }} 1800w,{{ item.img }} 768w" alt="">
+    </div>
+{% endfor %}

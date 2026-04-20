@@ -1,0 +1,19 @@
+{% for item in portfolios %}
+    <a href="{{ item.img }}" class="work-item {{ item.class }} p-10 border">
+        <div class="img-next-box before-z-index w-100 h-100 over-hidden">
+            <img class="cover-bg-img box-shadow" src="{{ item.img }}" alt="">
+        </div>
+        <div class="item-info p-relative w-100 d-flex align-items-end p-25 z-index-1 v-dark-head">
+            <div class="effect-ajax d-flex align-items-center" data-dsn-ajax="work">
+                <div class="text">
+                    <div class="metas mb-10">
+                        <span>{{ item.title }}</span>
+                    </div>
+                    <h4 class="sm-title-block sec-title text-uppercase">
+                        {{ item.name }}
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </a>
+{% endfor %}

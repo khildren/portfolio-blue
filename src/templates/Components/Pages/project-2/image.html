@@ -1,0 +1,5 @@
+{% for item in images %}
+    <a href="{{ item.img }}" class="p-relative over-hidden h-v-60 d-flex">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ item.img2 }}" data-dsn-srcset="{{ item.img }} 1800w,{{ item.img2 }} 768w" alt="" class="cover-bg-img">
+    </a>
+{% endfor %}

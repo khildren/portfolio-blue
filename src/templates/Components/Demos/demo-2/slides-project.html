@@ -1,0 +1,31 @@
+{% for item in slides_project %}
+    <div class="slide-item swiper-slide over-hidden">
+        <div class="image-bg cover-bg w-100 h-100 " data-overlay="{{ item.data }}" data-swiper-parallax="50%" data-swiper-parallax-scale="1.1">
+            <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ item.img }}" alt="">
+        </div>
+        <div class="slide-content p-absolute ">
+            <div class="content p-relative">
+                <div class="metas d-inline-block mb-20">
+                    <span>{{ item.name }}</span>
+                    <span>{{ item.name2 }}</span>
+                </div>
+                <div class="d-block"></div>
+                <h1 class="title line-title user-no-selection d-inline-block ">
+                    <a href="{% url 'portfolio:project_list' %}" data-dsn-ajax="slider">
+                        {{ item.title }}
+                    </a>
+                </h1>
+
+                <p class="max-w570 mt-20 description ">{{ item.desc }}</p>
+
+                <a href="{% url 'portfolio:project_list' %}" class="main-btn link-custom mt-30" data-dsn-ajax="slider">
+                    <span class="text">{{ item.btn }}</span>
+                    <span class="line-btn line-btn-top-left"></span>
+                    <span class="line-btn line-btn-top-right"></span>
+                    <span class="line-btn line-btn-bottom-left"></span>
+                    <span class="line-btn line-btn-bottom-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}

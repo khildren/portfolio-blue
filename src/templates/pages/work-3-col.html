@@ -1,0 +1,61 @@
+{% extends "Base/base.html" %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax classic-menu">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <!-- Header Normal -->
+            <header class="header-page over-hidden p-relative header-padding-top header-padding-bottom dsn-header-animation">
+                <div class="bg-circle-dotted"></div>
+                <div class="container">
+                    <div class="content-hero p-relative d-flex flex-column h-100 dsn-hero-parallax-fill">
+                        <p class="subtitle p-relative line-shap  line-shap-after">
+                            <span class="pl-10 pr-10 background-section dsn-load-animate heading-color">
+                                Selected Works
+                            </span>
+                        </p>
+
+                        <div class="hero-title mt-30 dsn-load-animate text-transform-upper ">
+                            <div class="d-inline-block">
+                                <h1 class="title" data-dsn-ajax="title">
+                                    AWESOME <br> BEST PORTFOLIO
+                                </h1>
+                                <h5 class="title title-fill ">
+                                    AWESOME <br> BEST PORTFOLIO
+                                </h5>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+            <!-- End Header Normal -->
+
+            <div class="wrapper">
+                <section
+                    class="work-inners work-gallery our-work section-margin p-relative zoom-gallery not-filter dsn-filter">
+                    <div class="container">
+                            
+                        <!-- Components/Demos/demo-3/filter.html -->
+                        {% include 'Components/Demos/demo-3/filter.html' %}
+
+                        <div class="w-100 dsn-item-filter dsn-isotope dsn-masonry d-grid grid-lg-3 grid-md-2" data-dsn-item=".work-item" data-dsn-isotope='{"space": 30 }'>
+
+                            <!-- Components/Portfolio/work-3-col/masonry-work.html -->
+                            {% include 'Components/Portfolio/work-3-col/masonry-work.html' %}
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer3 Section -->
+            {% include 'Base/footer3.html' %}
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

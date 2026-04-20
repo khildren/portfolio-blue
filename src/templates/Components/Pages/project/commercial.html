@@ -1,0 +1,9 @@
+{% for item in commercials %}
+    <div class="item">
+        <span class="number">{{ item.number }}</span>
+        <div class="">
+            <h4 class="title-block mb-20">{{ item.title }}</h4>
+            <p class="max-w570">{{ item.desc }}</p>
+        </div>
+    </div>
+{% endfor %}

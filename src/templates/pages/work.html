@@ -1,0 +1,83 @@
+{% extends "Base/base.html" %}
+{% load static %}
+
+{% block title %}Portfolio | Blue Solutions{% endblock %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax classic-menu ">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <!-- Header Normal -->
+            <header class="header-page over-hidden p-relative header-padding-top header-padding-bottom dsn-header-animation">
+                <div class="bg-circle-dotted"></div>
+                <div class="container">
+                    <div class="content-hero p-relative d-flex flex-column h-100 dsn-hero-parallax-fill">
+                        <p class="subtitle p-relative line-shap line-shap-after">
+                            <span class="pl-10 pr-10 background-section dsn-load-animate heading-color">
+                                Selected Works
+                            </span>
+                        </p>
+                        <div class="hero-title mt-30 dsn-load-animate text-transform-upper">
+                            <div class="d-inline-block">
+                                <h1 class="title" data-dsn-ajax="title">OUR <br> PORTFOLIO</h1>
+                                <h5 class="title title-fill">OUR <br> PORTFOLIO</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- End Header Normal -->
+
+            <div class="wrapper">
+                <section class="work-section dsn-load-animate not-filter p-relative dsn-filter section-padding">
+                    <div class="container">
+
+                        <div class="filtering-t mb-80">
+                            <div class="filtering-wrap d-flex align-items-center">
+                                <div class="filtering">
+                                    <h5 class="filter-title">filter +</h5>
+                                    <button type="button" data-filter="*" class="active">All</button>
+                                    {% for cat in categories %}
+                                    <button type="button" data-filter=".{{ cat|lower|slugify }}">{{ cat }}</button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid grid-md-2 dsn-item-filter dsn-isotope" data-dsn-item=".work-item">
+                            {% for project in projects %}
+                            <div class="work-item {% if project.category %}{{ project.category|lower|slugify }}{% endif %}">
+                                <div class="img-next-box before-z-index z-index-0 p-relative over-hidden">
+                                    {% if project.cover_image %}
+                                    <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ project.cover_image.image.url }}" alt="{{ project.name }}">
+                                    {% else %}
+                                    <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project1/1-sm.jpg' %}" alt="{{ project.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="box-content background-section p-30">
+                                    <div class="metas d-inline-block mb-15">
+                                        <span>{{ project.category }}</span>
+                                        <span>{{ project.location }}</span>
+                                    </div>
+                                    <h4 class="title-block sec-title">
+                                        <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+                                    </h4>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="container">No projects yet — run <code>python manage.py sync_portfolio</code>.</p>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            {% include 'Base/footer3.html' %}
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

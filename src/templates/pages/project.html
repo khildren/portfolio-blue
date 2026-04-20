@@ -1,0 +1,166 @@
+{% extends "Base/base.html" %}
+{% load static %}
+
+{% block title %}{{ project.name }} | Blue Solutions{% endblock %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <header class="header-project p-relative h-100-v over-hidden dsn-header-animation v-dark-head">
+                <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d w-100 h-100 bg-container over-hidden" data-overlay="5">
+                    <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-dsn-src="{% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1-sm.jpg' %}{% endif %}"
+                        data-dsn-srcset="{% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1.jpg' %}{% endif %} 1800w,
+                        {% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1-sm.jpg' %}{% endif %} 768w" alt="{{ project.name }}">
+                </div>
+
+                <div class="container d-flex align-items-end h-100 p-relative dsn-z-index-2 pb-80 dsn-hero-parallax-title">
+                    <div class="content p-relative">
+                        <div class="intro-project w-100" data-dsn-y="200">
+                            <div class="intro-title">
+                                <div class="metas d-inline-block mb-25">
+                                    <span>{{ project.category }}</span>
+                                    <span>{{ project.location }}</span>
+                                </div>
+                                <h1 class="title p-relative line-before line-after" data-dsn-ajax="title">
+                                    {{ project.name }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="info-project pt-60 pb-60 background-section">
+                    <div class="container">
+                        <div class="d-grid grid-md-4 grid-sm-2">
+                            {% if project.category %}
+                            <div class="item">
+                                <h4 class="sm-title-block text-transform-upper mb-10">Category</h4>
+                                <p>{{ project.category }}</p>
+                            </div>
+                            {% endif %}
+                            {% if project.location %}
+                            <div class="item">
+                                <h4 class="sm-title-block text-transform-upper mb-10">Location</h4>
+                                <p>{{ project.location }}</p>
+                            </div>
+                            {% endif %}
+                            {% if project.year %}
+                            <div class="item">
+                                <h4 class="sm-title-block text-transform-upper mb-10">Year</h4>
+                                <p>{{ project.year }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if project.description_html or project.description %}
+                <div class="about-project border-bottom section-padding">
+                    <div class="container">
+                        <div class="d-grid grid-half-1 grid-md-1">
+                            {% if project.cover_image %}
+                            <div class="box-img">
+                                <img src="{{ project.cover_image.image.url }}" alt="{{ project.name }}">
+                            </div>
+                            {% endif %}
+                            <div class="box-text">
+                                <div class="mb-30 p-relative">
+                                    <h2 class="section-title text-uppercase">Project Overview</h2>
+                                </div>
+                                {% if project.description_html %}
+                                {{ project.description_html|safe }}
+                                {% else %}
+                                <p class="sm-title-block">{{ project.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {# Image gallery as swiper slider #}
+                {% if images %}
+                <div class="p-relative mb-section dsn-container dsn-swiper" data-dsn-option='{"slidesPerView":"1.2","centeredSlides":false,"spaceBetween":60}'>
+                    <div class="swiper-container p-relative w-100">
+                        <div class="swiper-wrapper">
+                            {% for img in images %}
+                            <div class="swiper-slide over-hidden">
+                                <img class="cover-bg-img image-bg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ img.image.url }}" alt="{{ img.caption|default:project.name }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="dsn-pagination mt-30 d-flex justify-content-between">
+                            <div class="swiper-next">
+                                <div class="next-container">
+                                    <div class="container-inner">
+                                        <div class="triangle"></div>
+                                        <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                            <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                                <circle cx="12" cy="12" r="10.5"></circle>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-prev">
+                                <div class="prev-container">
+                                    <div class="container-inner">
+                                        <div class="triangle"></div>
+                                        <svg class="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
+                                                <circle cx="12" cy="12" r="10.5"></circle>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {# Next project teaser — first related project #}
+                {% if related %}
+                {% with next=related.0 %}
+                <div class="next-project section-padding p-relative v-dark-head background-section">
+                    <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d bg-container over-hidden" data-overlay="5">
+                        {% if next.cover_image %}
+                        <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ next.cover_image.image.url }}" alt="{{ next.name }}">
+                        {% else %}
+                        <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project2/1-sm.jpg' %}" alt="{{ next.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="dsn-container dsn-z-index-2 p-relative h-100">
+                        <div class="p-relative h-100 d-flex flex-column">
+                            <div class="intro-project w-100 h">
+                                <div class="intro-title text-center">
+                                    <div class="metas d-inline-block mb-25 ml-auto mr-auto">
+                                        <span>{{ next.category }}</span>
+                                        <span>{{ next.location }}</span>
+                                    </div>
+                                    <div class="hero-title">
+                                        <a href="{{ next.get_absolute_url }}" class="d-inline-block" data-dsn-ajax="next">
+                                            <h5 class="title">{{ next.name }}</h5>
+                                            <h2 class="title title-fill">{{ next.name }}</h2>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endif %}
+
+            </div>
+        </div>
+    </main>
+</body>
+
+{% endblock %}

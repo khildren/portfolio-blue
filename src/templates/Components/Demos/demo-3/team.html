@@ -1,0 +1,33 @@
+{% for item in teams %}
+    <div class="team-item">
+        <div class="box-img">
+            <img class="cover-bg-img" src="{{ item.img }}" alt="">
+        </div>
+
+        <div class="content text-center p-30">
+            <h4 class="sm-title-block text-uppercase mb-10">{{ item.name }}</h4>
+            <h5 class="sm-p body-color text-uppercase">{{ item.title }}</h5>
+
+            <ul class="socials mt-10">
+                <li>
+                    <a href="" target="_blank">
+                        <i class="fab fa-dribbble"></i>
+                        <span>Db</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                        <span>Tw</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank">
+                        <i class="fab fa-behance"></i>
+                        <span>Be</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endfor %}

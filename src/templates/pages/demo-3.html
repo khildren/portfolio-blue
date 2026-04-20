@@ -1,0 +1,199 @@
+{% extends "Base/base.html" %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax classic-menu">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <!-- Header Normal -->
+            <header class="header-page over-hidden p-relative h-100-v dsn-header-animation">
+                <div class="bg-container dsn-hero-parallax-img p-absolute top-0 w-100 h-100" data-dsn-ajax="img" data-overlay="5">
+                    <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/header-2.jpg' %}" data-dsn-srcset="{% static 'app/img/header-2.jpg' %} 1800w, {% static 'app/img/header-2.jpg' %} 768w" alt="">
+                </div>
+                <div class="dsn-container dsn-left-container h-100 d-flex flex-column justify-content-end dsn-z-index-2 p-relative">
+                    <div class="content-hero  p-relative ">
+                        <div class="d-grid grid-lg-3 d-grid-no-space">
+                            <div class="item-info background-section pl-30 pr-30 pt-50 pb-50 max-w570">
+                                <p class="subtitle p-relative line-shap  line-shap-after">
+                                    <span class="pl-10 pr-10 background-main dsn-load-animate">
+                                        DETAILED CRAFTSMANSHIP
+                                    </span>
+                                </p>
+                                <h1 class="title-block mt-15 dsn-load-animate text-uppercase">
+                                    DSN-Grid CREATIVE <br> STUDIO
+                                </h1>
+                            </div>
+
+                            <div class="item-info background-section pl-30 pr-30 pt-50 pb-50 max-w570">
+                                <p class="sm-title-block">Specializing in elevating interiors and spaces, bringing thought, relevance and style to forward thinking environments</p>
+                            </div>
+
+                            <div class="item-info background-section v-dark pl-30 pr-30 pt-50 pb-50 d-flex flex-column justify-content-center max-w570">
+                                <a href="{% url 'main:about' %}" class="text-link d-flex align-item-center">
+                                    <span class="text text-uppercase d-flex align-item-center ">More info</span>
+                                    <span class="icon d-flex align-item-center justify-content-center">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;" xml:space="preserve">
+                                            <g>
+                                                <g>
+                                                    <path d="M388.425,241.951L151.609,5.79c-7.759-7.733-20.321-7.72-28.067,0.04c-7.74,7.759-7.72,20.328,0.04,28.067l222.72,222.105
+                                                    L123.574,478.106c-7.759,7.74-7.779,20.301-0.04,28.061c3.883,3.89,8.97,5.835,14.057,5.835c5.074,0,10.141-1.932,14.017-5.795
+                                                    l236.817-236.155c3.737-3.718,5.834-8.778,5.834-14.05S392.156,245.676,388.425,241.951z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+            <!-- End Header Normal -->
+
+            <div class="wrapper">
+                <section class="services section-margin">
+                    <div class="container mb-70 p-relative text-center">
+                        <h5 class="sub-heading mb-15 pl-20 pb-15 ml-auto mr-auto text-center">Our Services</h5>
+                        <h2 class="section-title text-uppercase">New Branding Agency</h2>
+                    </div>
+
+                    <div class="container">
+                        <div class="d-grid grid-md-3 grid-sm-2">
+
+                            <!-- Components/Demos/demo-3/our-services.html -->
+                            {% include 'Components/Demos/demo-3/our-services.html' %}
+
+                        </div>
+                    </div>
+                </section>
+
+                <div class="box-seat section-margin">
+                    <div class="dsn-v-text">
+                        <div class="box-middle-text">
+                            <a href="https://vimeo.com/175353205" class="vid">
+                                <span class="btn-play-inner">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                        <circle class="stroke" stroke-linecap="round" cx="98.5" cy="98.6" r="80">
+                                        </circle>
+                                        <circle class="circle" stroke-linecap="round" cx="98.5" cy="98.6" r="80">
+                                        </circle>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M88.5,78.6l20,20l-20,20V78.6z"></path>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="inner-img" data-dsn-grid="move-up">
+                            <img data-dsn-scale="1" src="{% static 'app/img/header.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <section class="work-inners work-gallery our-work section-margin p-relative zoom-gallery not-filter dsn-filter">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">Our Work</h5>
+                        <h2 class="section-title text-uppercase">Creative Portfolio Designs</h2>
+                    </div>
+
+                    <div class="container">
+                        
+                        <!-- Components/Demos/demo-3/filter.html -->
+                        {% include 'Components/Demos/demo-3/filter.html' %}
+
+                        <div class="w-100 dsn-item-filter dsn-isotope dsn-masonry d-grid grid-lg-3 grid-md-2  has-popup" data-dsn-item=".work-item" data-dsn-isotope='{"space": 30 }'>
+
+                            <!-- Components/Demos/demo-3/portfolio.html -->
+                            {% include 'Components/Demos/demo-3/portfolio.html' %}
+
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-margin">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">MAIN PRINCIPES</h5>
+                        <h2 class="section-title ">A Sketch of Each Detail</h2>
+                    </div>
+                    <div class="container">
+                        <div class="d-grid grid-1-half grid-md-1">
+                            <div class="item pr-50">
+                                <p class="sm-title-block">Whether you are a company or an institution with a large portfolio of properties, Castell Management designs a set of solutions to meet your needs and investment objectives. With optimization-oriented solutions, we focus on creating value through proactive management, dynamic leasing and efficient operations.</p>
+                            </div>
+
+                            <div class="item-list">
+                                <ul>
+                                    <li>Real Estate Management</li>
+                                    <li>Rental Management </li>
+                                    <li>Investment consulting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="numbers-section section-margin pt-section" data-dsn-animate="section">
+                    <div class="dsn-container dsn-right-container">
+                        <div class="inner-img" data-dsn-grid="move-up">
+                            <img data-dsn-scale="1" src="{% static 'app/img/slider.jpg' %}" alt="">
+                        </div>
+
+                        <div class="h-100 d-flex flex-column align-items-end justify-content-end">
+                            <div class="row ml-0 mr-0">
+
+                                <!-- Components/Demos/demo-3/numbers.html -->
+                                {% include 'Components/Demos/demo-3/numbers.html' %}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <section class="team section-margin">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">our team</h5>
+                        <h2 class="section-title ">The best team ever!</h2>
+                    </div>
+
+                    <div class="container">
+                        <div class="d-grid grid-md-3 grid-sm-2">
+                            
+                            <!-- Components/Demos/demo-3/team.html -->
+                            {% include 'Components/Demos/demo-3/team.html' %}
+
+                        </div>
+                    </div>
+                </section>
+
+                <div class="our-blog p-relative">
+                    <div class="container mb-70 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">Latest News</h5>
+                        <h2 class="section-title text-uppercase">Latest and greatest post</h2>
+                    </div>
+
+                    <!-- Components/Demos/demo-3/news.html -->
+                    {% include 'Components/Demos/demo-3/news.html' %}
+
+                </div>
+
+                <section class="next-page section-padding background-section">
+                    <div class="container">
+                        
+                        <!-- Components/Demos/index/our-contact.html -->
+                        {% include 'Components/Demos/index/our-contact.html' %}
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Section -->
+            {% include 'Base/footer.html' %}
+
+        </div>
+    </main>
+</body>
+ 
+{% endblock %}

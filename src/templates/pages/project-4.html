@@ -1,0 +1,145 @@
+{% extends "Base/base.html" %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <header class="header-project p-relative h-100-v over-hidden dsn-header-animation v-dark-head">
+                <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d w-100 h-100 bg-container over-hidden" data-overlay="5">
+                    <img class="cover-bg-img " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project4/1-sm.jpg' %}" data-dsn-srcset="{% static 'app/img/project/project4/1.jpg' %} 1800w,{% static 'app/img/project/project4/1-sm.jpg' %} 768w" alt="">
+                </div>
+
+                <div class="container d-flex align-items-center justify-content-center text-center h-100 p-relative dsn-z-index-2 pb-80">
+                    <div class="content p-relative dsn-hero-parallax-fill">
+                        <div class="intro-project w-100">
+                            <div class="intro-title">
+                                <div class="metas d-inline-block mb-25">
+                                    <span>living</span><span>Architecture</span>
+                                </div>
+
+                                <div class="hero-title dsn-load-animate ">
+
+                                    <div class="d-inline-block">
+                                        <h1 class="title" data-dsn-ajax="title">
+                                            Small modern house
+                                        </h1>
+                                        <h5 class="title title-fill ">
+                                            Small modern house
+                                        </h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+
+            <div class="wrapper">
+                <div class="info-project pt-60 pb-60 background-section">
+                    <div class="container">
+                        <div class="d-grid grid-md-4 grid-sm-2">
+                                
+                            <!-- Components/Pages/project/info.html -->
+                            {% include 'Components/Pages/project/info.html' %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                        <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project4/2.jpg' %}" alt="" data-dsn-move="20%">
+                        <div class="cap">
+                            <span>Web Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="description-project section-margin has-popup over-hidden p-relative">
+                    <div class="container">
+                        <div class="text-center">
+                            <h4 class="title-block max-w570">The garden has been reconfigured to provide a better link with the living space – made perfect for entertaining and relaxing all the same.</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid section-margin">
+                    <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                        <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project4/3.jpg' %}" alt="" data-dsn-move="20%">
+                        <div class="cap">
+                            <span>Web Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid gallery-col section-margin">
+                    <div class="d-grid grid-md-2 d-grid-no-space">
+
+                        <div class="box-im bg-btn-assistant">
+                            <div class="section-padding pl-80 pr-80">
+                                <a class="single-image" href="{% static 'app/img/project/project4/4.jpg' %}">
+                                    <img src="{% static 'app/img/project/project4/4.jpg' %}" alt="">
+                                </a>
+                                <div class="caption text-center">Sef McCullough</div>
+                            </div>
+                        </div>
+
+                        <div class="box-im background-section">
+                            <div class="section-padding pl-80 pr-80">
+                                <a class="single-image" href="{% static 'app/img/project/project4/5.jpg' %}">
+                                    <img src="{% static 'app/img/project/project4/5.jpg' %}" alt="">
+                                </a>
+                                <div class="caption text-center">Sef McCullough</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid section-margin">
+                    <div class="img-box-small dsn-parallax-full parallax-responsive" data-dsn-grid="move-up">
+                        <img class="p-absolute cover-bg-img has-top-bottom" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project4/6.jpg' %}" alt="" data-dsn-move="20%">
+                        <div class="cap">
+                            <span>Web Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-project section-padding p-relative v-dark-head background-section">
+                    <div data-dsn-ajax="img" class="p-absolute dsn-hero-parallax-img transform-3d bg-container over-hidden " data-overlay="5">
+                        <img class="cover-bg-img " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/project/project5/1-sm.jpg' %}" data-dsn-srcset="{% static 'app/img/project/project5/1.jpg' %} 1800w,{% static 'app/img/project/project5/1-sm.jpg' %} 768w" alt="">
+                    </div>
+
+                    <div class="dsn-container dsn-z-index-2 p-relative h-100">
+                        <div class=" p-relative h-100 d-flex flex-column">
+                            <div class="intro-project w-100 h">
+                                <div class="intro-title text-center">
+                                    <div class="metas d-inline-block mb-25 ml-auto mr-auto ">
+                                        <span>living</span><span>Architecture</span>
+                                    </div>
+
+                                    <div class="hero-title">
+                                        <a href="{% url 'App:project_5' %}" class="d-inline-block" data-dsn-ajax="next">
+                                            <h1 class="title" >
+                                                Living room design
+                                            </h1>
+                                            <h5 class="title title-fill " >
+                                                Living room design
+                                            </h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+services:
+  bluesolutions:
+    build: .
+    container_name: bluesolutions
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./src:/app
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+      - ./gdrive_credentials.json:/app/gdrive_credentials.json:ro
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bluesolutions.rule=Host(`blue.communityplaylist.com`)"
+      - "traefik.http.routers.bluesolutions.entryPoints=websecure"
+      - "traefik.http.routers.bluesolutions.tls.certResolver=letsencrypt"
+      - "traefik.http.services.bluesolutions.loadbalancer.server.port=8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    container_name: bluesolutions-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

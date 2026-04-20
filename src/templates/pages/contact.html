@@ -1,0 +1,118 @@
+{% extends "Base/base.html" %}
+{% load static %}
+
+{% block title %}Contact | Blue Solutions{% endblock %}
+
+{% block hero_content %}
+
+<body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax">
+    <main class="main-root">
+        <div id="dsn-scrollbar">
+            <!-- Header Normal -->
+            <header class="header-page over-hidden p-relative header-padding-top header-padding-bottom dsn-header-animation">
+                <div class="bg-circle-dotted"></div>
+                <div class="container">
+                    <div class="content-hero p-relative d-flex flex-column h-100 dsn-hero-parallax-fill">
+                        <p class="subtitle p-relative line-shap  line-shap-after">
+                            <span class="pl-10 pr-10 background-section dsn-load-animate heading-color">
+                                Let's Work Together
+                            </span>
+                        </p>
+
+                        <div class="hero-title mt-30 dsn-load-animate text-transform-upper ">
+                            <div class="d-inline-block">
+                                <h1 class="title" data-dsn-ajax="title">
+                                    ready to <br> get started?
+                                </h1>
+                                <h5 class="title title-fill ">ready to <br> get started?</h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+            <!-- End Header Normal -->
+
+            <div class="wrapper">
+
+                <section class="contact-up section-padding background-section">
+                    <div class="container mb-50 p-relative">
+                        <h5 class="sub-heading mb-15 pb-15">Contact Us</h5>
+                        <h2 class="section-title text-uppercase">
+                            Arctit <strong> Studio</strong>
+                        </h2>
+
+                        <p class="sm-title-block pb-50 border-bottom mt-20">We are always interested in looking at the possibilities together. If you have any questions or would like general information, please do not hesitate to contact us. We are happy to talk to you.</p>
+                    </div>
+
+                    <div class="container">
+                        <div class="d-grid grid-md-3 grid-sm-2 mt-50 pb-50 border-bottom">
+                                
+                            <!-- Components/Demos/demo-2/contact-data.html -->
+                            {% include 'Components/Demos/demo-2/contact-data.html' %}
+
+                        </div>
+
+                        <form class="form w-100 mt-50">
+                            <p class="mb-0" id="error-msg"></p>
+                            <div id="simple-msg"></div>
+                            <div class="input__wrap controls row">
+                                <div class="col-md-6 form-group">
+                                    <div class="entry-box">
+                                        <label for="name">Name</label>
+                                        <input name="name" id="name" type="text" class="mt-2 form-control" placeholder="Enter your full name">
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="entry-box">
+                                        <label for="email">Email</label>
+                                        <input name="email" id="email" type="email" class="mt-2 form-control" placeholder="Enter your email address">
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <div class="entry-box">
+                                        <label for="comments">Message</label>
+                                        <textarea name="comments" id="comments" class="mt-2 form-control" placeholder="Enter your message"></textarea>
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <div class="image-zoom w-auto d-inline-block move-circle inner-btn v-dark-head" data-dsn="parallax">
+                                        <button class="dsn-btn v-dark text-uppercase" type="submit" id="submit" name="send">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </section>
+
+                <div class="container-fluid overflow-hidden">
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            <div class="card map border-0">
+                                <div class="card-body p-0">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin" style="border:0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end container-->
+
+            </div>
+
+            <!-- Footer3 Section -->
+            {% include 'Base/footer3.html' %}
+
+        </div>
+    </main>
+</body>
+
+{% endblock %}

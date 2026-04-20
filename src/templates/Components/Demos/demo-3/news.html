@@ -1,0 +1,28 @@
+{% for item in news %}
+    <div class="blog-item-list p-relative section-padding">
+        <div class="background-hover p-absolute" data-overlay="7">
+            <img class="cover-bg-img" src="{{ item.img }}" alt="">
+        </div>
+        <div class="container blog-item-inner d-flex p-relative">
+            <div class="left-box">
+                <a href="#">
+                    <h4 class="title-block text-uppercase">
+                        {{ item.name }} <br> {{ item.name2 }}
+                    </h4>
+                </a>
+
+                <div class="link d-flex mt-15">
+                    <a class="font-caps heading-color" href="#">
+                        {{ item.date }}
+                    </a>
+
+                    <a class="blog-category font-caps heading-color" href="#">{{ item.title }}</a>
+                </div>
+            </div>
+
+            <div class="right-box">
+                <p class="max-w570">{{ item.desc }}</p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

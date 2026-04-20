@@ -1,0 +1,13 @@
+{% for item in counters %}
+    <div class="fact-item d-flex">
+        <div class="number d-flex align-items-center mr-15">
+            <span class="title has-animate-number">{{ item.number }}</span>
+            <span class="sm-title-block">{{ item.symbol }}</span>
+        </div>
+
+        <div class="text">
+            <h4 class="title-block mb-15">{{ item.title }}</h4>
+            <p>{{ item.desc }}</p>
+        </div>
+    </div>
+{% endfor %}

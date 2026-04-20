@@ -1,0 +1,17 @@
+{% for item in services %}
+    <div class="list-item {{ item.style }} v-light-head-mobile-sm">
+        <div class="item-content text-center">
+            <div class="icon mb-25">
+                <img src="{{ item.img }}" alt="">
+            </div>
+            <h3 class="title-block text-uppercase">{{ item.title }}</h3>
+            <div class="inner-divider"></div>
+
+            <div class="text-hover">
+                <p class="max-w570">{{ item.desc }} <br> {{ item.desc2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="item-bg cover-bg" data-image-src="{{ item.img2 }}" data-overlay="7">
+    </div>
+{% endfor %}

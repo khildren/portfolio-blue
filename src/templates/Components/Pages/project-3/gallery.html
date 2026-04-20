@@ -1,0 +1,8 @@
+{% for item in gallerys %}
+    <a class="link-pop" href="{{ item.img }}">
+        <img src="{{ item.img }}" alt="">
+        <div class="cap">
+            <span>{{ item.title }}</span>
+        </div>
+    </a>
+{% endfor %}

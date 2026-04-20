@@ -1,0 +1,20 @@
+{% for item in our_works %}
+    <div class="swiper-slide work-item">
+        <div class="box-img">
+            <img class="cover-bg-img" src="{{ item.img }}" alt="">
+        </div>
+        <div class="text-holder">
+            <a class="link" href="{% url 'portfolio:project_list' %}"></a>
+            <div class="text-wrapper">
+                <div class="metas d-inline-block mb-10">
+                    <span>{{ item.name }}</span>
+                    <span>{{ item.name2 }}</span>
+                </div>
+
+                <h4 class="title-block text-uppercase sec-title">
+                    {{ item.title }}
+                </h4>
+            </div>
+        </div>
+    </div>
+{% endfor %}

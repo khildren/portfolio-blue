@@ -1,0 +1,14 @@
+{% load static %}
+{% for project in featured %}
+    <div class="slide-item swiper-slide over-hidden">
+        <div class="box-next-content">
+            <div class="box-img">
+                <img src="{% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1-sm.jpg' %}{% endif %}" alt="{{ project.name }}">
+            </div>
+            <div class="box-title background-main">
+                <span class="num">0{{ forloop.counter }}</span>
+                <h3>{{ project.name }}</h3>
+            </div>
+        </div>
+    </div>
+{% endfor %}

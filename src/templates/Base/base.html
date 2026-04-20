@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+
+    <head>
+        {% block meta %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>{% block title %}Arctit: Django Architecture & Interior Template{% endblock %}</title>
+        <meta name="discrption" content="parallax one page" />
+        <meta name="keyword" content="agency, business, corporate, creative, freelancer, interior, joomla template, K2 Blog, minimal, modern, multipurpose, personal, portfolio, responsive, simple" />
+        <meta name="author" content="Shreethemes" />
+	    <meta name="website" content="https://shreethemes.in" />
+	    <meta name="email" content="support@shreethemes.in" />
+	    <meta name="version" content="1.0.0" />
+        {% endblock %}
+        <!-- Font Google -->
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+        <link rel="shortcut icon" href="{% static 'app/img/favicon.ico' %}" type="image/x-icon" />
+        <link rel="icon" href="{% static 'app/img/favicon.ico' %}" type="image/x-icon" />
+
+        <!-- custom styles (optional) -->
+        <link href="{% static 'app/css/plugins.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+        {% block css %}{% endblock %}
+    </head>
+
+    <body>
+
+        <!-- Navbar Section -->
+        {% block navbar %}
+            {% include 'Base/navbar.html' %}
+        {% endblock %}
+
+        <main>
+			{% block hero_content %}
+				{{ hero_content}}
+			{% endblock %}
+		</main>
+
+        <!-- Cursor Page -->
+        <div class="cursor">
+
+            <div class="cursor-helper">
+                <span class="cursor-drag">Drag</span>
+                <span class="cursor-view">View</span>
+                <span class="cursor-open"><i class="fas fa-plus"></i></span>
+                <span class="cursor-close">Close</span>
+                <span class="cursor-play">play</span>
+                <span class="cursor-next"><i class="fas fa-chevron-right"></i></span>
+                <span class="cursor-prev"><i class="fas fa-chevron-left"></i></span>
+            </div>
+
+        </div>
+        <!-- End Cursor Page -->
+
+        <!-- Scroll Right Page To Top Page -->
+        <div class="scroll-to-top">
+            <img src="{% static 'app/img/scroll_top.svg' %}" alt="">
+            <div class="box-number v-middle">
+                <span>0%</span>
+            </div>
+        </div>
+        <!-- End Scroll Right Page To Top Page -->
+
+        <!-- Optional JavaScript -->
+        <script src="{% static 'app/js/jquery-3.1.1.min.js' %}"></script>
+        <script src="{% static 'app/js/plugins.min.js' %}"></script>
+        <script src="{% static 'app/js/dsn-grid.js' %}"></script>
+        <script src="{% static 'app/js/custom.js' %}"></script>
+        <script src="{% static 'app/js/active.js' %}"></script>
+        <script src="{% static 'app/js/contact.js' %}"></script>
+        {% block js %}{% endblock %}
+    </body>
+
+</html>

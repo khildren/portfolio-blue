@@ -1,0 +1,11 @@
+{% for item in awards %}
+    <div class="info-item d-flex mb-30">
+        <div class="years">
+            <h4 class="sm-title-block before-line-sm">{{ item.year }}</h4>
+        </div>
+        <div class="text">
+            <p class="mb-15">{{ item.desc }}</p>
+            <a href="#">{{ item.title }}</a>
+        </div>
+    </div>
+{% endfor %}

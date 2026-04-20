@@ -1,0 +1,9 @@
+{% for item in circulars %}
+    <div class="circular-item p-relative text-center">
+        <div class="circle p-relative" data-value="{{ item.value }}">
+            <h4 class="v-middle">{{ item.number }}</h4>
+        </div>
+        <h5 class="mt-30 title-block mb-15 text-uppercase">{{ item.title }}</h5>
+        <p>{{ item.desc }}</p>
+    </div>
+{% endfor %}

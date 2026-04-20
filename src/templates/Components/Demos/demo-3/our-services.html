@@ -1,0 +1,12 @@
+{% for item in our_services %}
+    <div class="services-item text-center">
+        <div class="icon-img mb-25">
+            <img src="{{ item.img }}" alt="">
+        </div>
+
+        <div class="contant">
+            <h4 class="title-block mb-15">{{ item.title }}</h4>
+            <p>{{ item.desc }}</p>
+        </div>
+    </div>
+{% endfor %}

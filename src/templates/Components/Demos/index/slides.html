@@ -1,0 +1,19 @@
+{% load static %}
+{% for project in featured %}
+    <div class="slide-item swiper-slide over-hidden">
+        <div class="image-bg cover-bg w-100 h-100" data-overlay="5" data-swiper-parallax="50%" data-swiper-parallax-scale="1.1">
+            <img class="cover-bg-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1-sm.jpg' %}{% endif %}" alt="{{ project.name }}">
+        </div>
+        <div class="slide-content p-absolute">
+            <div class="content p-relative">
+                <div class="metas d-inline-block mb-20">
+                    <span>{{ project.category }}</span><span>{{ project.location }}</span>
+                </div>
+                <div class="d-block"></div>
+                <h1 class="title line-title user-no-selection d-inline-block">
+                    <a href="{{ project.get_absolute_url }}" data-dsn-ajax="slider">{{ project.name }}</a>
+                </h1>
+            </div>
+        </div>
+    </div>
+{% endfor %}

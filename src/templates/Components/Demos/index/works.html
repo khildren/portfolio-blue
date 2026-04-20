@@ -1,0 +1,7 @@
+{% load static %}
+{% for project in featured %}
+    <div class="swiper-slide">
+        <div class="bg-item cover-bg" data-image-src="{% if project.cover_image %}{{ project.cover_image.image.url }}{% else %}{% static 'app/img/project/project1/1-sm.jpg' %}{% endif %}">
+        </div>
+    </div>
+{% endfor %}
