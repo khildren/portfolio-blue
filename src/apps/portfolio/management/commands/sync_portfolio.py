@@ -1,24 +1,49 @@
 """
-Syncs the Living Portfolio from Google Drive.
+Living Portfolio — Google Drive sync command.
 
-GDrive folder structure expected:
-  <GDRIVE_PORTFOLIO_FOLDER_ID>/
-    Project Name/
-      description.txt  (or description.md)
-      cover.jpg        (or any image named 'cover*')
-      image1.jpg
-      image2.jpg
-      subfolder/       (images in subfolders are included)
+Client workflow:
+  1. Create a folder inside the portfolio root Drive folder
+  2. Name it using the format:  Project Name | Category | Location | YYYY
+     (only Project Name is required; extras are optional)
+  3. Drop images in — first image named cover/hero/flyer becomes the hero
+  4. Optionally add description.txt / description.md for copy
+  5. Optionally add info.txt for structured overrides (see below)
+
+info.txt format (plain key: value, all optional):
+  featured: yes
+  category: Residential
+  location: Denver, CO
+  year: 2025
+  description: One-line override for the project blurb.
+
+Image ordering:
+  cover.jpg / hero.jpg / flyer.jpg  →  hero (order 0)
+  01_front.jpg / 1_side.jpg         →  respects numeric prefix
+  anything else                      →  alphabetical after above
+
+Sync modes:
+  --full        Re-download everything regardless of Drive modified time
+  --project X   Only sync the folder named X (full re-download)
+  --dry-run     Print what would change, touch nothing
+
+Incremental (default):
+  Uses the Drive Changes API pageToken stored in DB.
+  Only folders with activity since last sync are re-examined.
+  New installs do a full scan on first run to build the token.
 
 Run:
   python manage.py sync_portfolio
   python manage.py sync_portfolio --dry-run
-  python manage.py sync_portfolio --project "Project Name"
+  python manage.py sync_portfolio --full
+  python manage.py sync_portfolio --project "Hillside Kitchen"
 """
+
 import io
-import mimetypes
+import json
 import os
+import re
 from pathlib import Path
+
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
@@ -34,262 +59,424 @@ try:
 except ImportError:
     HAS_GOOGLE = False
 
-IMAGE_MIMETYPES = {
-    'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff',
-}
-TEXT_MIMETYPES = {
-    'text/plain', 'text/markdown', 'text/x-markdown',
-}
+IMAGE_MIMETYPES = {'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff'}
+TEXT_MIMETYPES = {'text/plain', 'text/markdown', 'text/x-markdown'}
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+PAGE_TOKEN_KEY = 'gdrive_changes_page_token'
 
+
+# ── Drive helpers ────────────────────────────────────────────────────────────
 
 def _build_service():
     creds_file = settings.GDRIVE_CREDENTIALS_FILE
     if not os.path.exists(creds_file):
         raise CommandError(
-            f'Google credentials file not found: {creds_file}\n'
+            f'Credentials file not found: {creds_file}\n'
             'See docs/gdrive_setup.md for setup instructions.'
         )
     creds = service_account.Credentials.from_service_account_file(creds_file, scopes=SCOPES)
-    return build('drive', 'v3', credentials=creds)
+    return build('drive', 'v3', credentials=creds, cache_discovery=False)
 
 
-def _list_children(service, folder_id, page_size=200):
-    """Yield all direct children of a Drive folder."""
-    query = f"'{folder_id}' in parents and trashed=false"
-    page_token = None
+def _list_children(service, folder_id):
+    items = []
+    token = None
     while True:
         resp = service.files().list(
-            q=query,
-            pageSize=page_size,
+            q=f"'{folder_id}' in parents and trashed=false",
+            pageSize=200,
             fields='nextPageToken, files(id, name, mimeType, modifiedTime, size)',
-            pageToken=page_token,
+            pageToken=token,
         ).execute()
-        yield from resp.get('files', [])
-        page_token = resp.get('nextPageToken')
-        if not page_token:
+        items.extend(resp.get('files', []))
+        token = resp.get('nextPageToken')
+        if not token:
             break
+    return items
 
 
-def _download_file(service, file_id):
-    """Download file bytes from Drive."""
-    request = service.files().get_media(fileId=file_id)
+def _download(service, file_id):
+    req = service.files().get_media(fileId=file_id)
     buf = io.BytesIO()
-    downloader = MediaIoBaseDownload(buf, request)
+    dl = MediaIoBaseDownload(buf, req)
     done = False
     while not done:
-        _, done = downloader.next_chunk()
+        _, done = dl.next_chunk()
     buf.seek(0)
     return buf.read()
 
 
-def _parse_text(content_bytes, filename):
-    """Return (plain_text, html) from a text/md file."""
-    text = content_bytes.decode('utf-8', errors='replace')
+def _get_start_token(service):
+    resp = service.changes().getStartPageToken().execute()
+    return resp['startPageToken']
+
+
+def _get_changed_folder_ids(service, page_token, root_folder_id):
+    """Return set of folder IDs that had any Drive activity since page_token."""
+    changed_ids = set()
+    token = page_token
+    new_token = token
+    while True:
+        resp = service.changes().list(
+            pageToken=token,
+            spaces='drive',
+            fields='nextPageToken, newStartPageToken, changes(fileId, file(parents, mimeType, trashed))',
+            includeRemoved=True,
+        ).execute()
+        for change in resp.get('changes', []):
+            f = change.get('file') or {}
+            parents = f.get('parents', [])
+            # We care about any file whose parent is the root folder,
+            # or any subfolder inside a project folder (image added/removed).
+            # Simplest: return the parent folder IDs that are direct children
+            # of root, then the caller decides whether to re-sync that project.
+            changed_ids.add(change['fileId'])
+            changed_ids.update(parents)
+        new_token = resp.get('newStartPageToken', new_token)
+        token = resp.get('nextPageToken')
+        if not token:
+            break
+    return changed_ids, new_token
+
+
+# ── Metadata helpers ─────────────────────────────────────────────────────────
+
+def _parse_info_txt(text):
+    """Parse a simple key: value info.txt into a dict."""
+    result = {}
+    for line in text.splitlines():
+        if ':' in line:
+            k, _, v = line.partition(':')
+            result[k.strip().lower()] = v.strip()
+    return result
+
+
+def _parse_text(data, filename):
+    text = data.decode('utf-8', errors='replace')
     if filename.lower().endswith('.md'):
         try:
             html = markdown.markdown(text)
         except Exception:
             html = f'<pre>{text}</pre>'
     else:
-        html = f'<p>{text.replace(chr(10), "</p><p>")}</p>'
+        paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+        html = ''.join(f'<p>{p.replace(chr(10), " ")}</p>' for p in paragraphs) or f'<p>{text}</p>'
     return text, html
 
 
+def _image_order(filename):
+    lower = filename.lower()
+    stem = Path(lower).stem
+    if stem in ('cover', 'hero', 'flyer') or re.match(r'^(cover|hero|flyer)[\._\- ]', lower):
+        return (0, lower)
+    m = re.match(r'^(\d+)[_\- ]', lower)
+    if m:
+        return (int(m.group(1)), lower)
+    return (999, lower)
+
+
+def _is_cover_filename(filename):
+    stem = Path(filename.lower()).stem
+    return stem in ('cover', 'hero', 'flyer') or bool(
+        re.match(r'^(cover|hero|flyer)[\._\- ]', filename.lower())
+    )
+
+
+# ── Main command ─────────────────────────────────────────────────────────────
+
 class Command(BaseCommand):
-    help = 'Sync Living Portfolio projects from Google Drive'
+    help = 'Sync Living Portfolio from Google Drive (incremental by default)'
 
     def add_arguments(self, parser):
-        parser.add_argument('--dry-run', action='store_true', help='Preview changes without writing to DB or disk')
-        parser.add_argument('--project', type=str, default=None, help='Only sync a specific project folder name')
-        parser.add_argument('--force', action='store_true', help='Re-download all files even if already synced')
+        parser.add_argument('--dry-run', action='store_true')
+        parser.add_argument('--full', action='store_true', help='Re-download all files')
+        parser.add_argument('--project', type=str, default=None, help='Sync one folder by name')
 
     def handle(self, *args, **options):
         if not HAS_GOOGLE:
-            raise CommandError('google-api-python-client is not installed. Run: pip install google-api-python-client google-auth')
+            raise CommandError('Run: pip install google-api-python-client google-auth markdown')
 
-        from apps.portfolio.models import Project, ProjectImage, ProjectDocument
+        from apps.portfolio.models import Project, ProjectImage, ProjectDocument, SyncState
+        from apps.portfolio.models import _parse_folder_name
 
         dry_run = options['dry_run']
-        target_name = options['project']
-        force = options['force']
-        folder_id = settings.GDRIVE_PORTFOLIO_FOLDER_ID
+        full = options['full']
+        target = options['project']
+        root_id = settings.GDRIVE_PORTFOLIO_FOLDER_ID
 
         if dry_run:
-            self.stdout.write(self.style.WARNING('DRY RUN — no changes will be saved'))
+            self.stdout.write(self.style.WARNING('DRY RUN — no writes'))
 
         service = _build_service()
-        self.stdout.write(f'Scanning GDrive folder {folder_id} ...')
 
-        project_folders = [
-            f for f in _list_children(service, folder_id)
+        # ── Determine which project folders need syncing ──────────────────
+        all_folders = [
+            f for f in _list_children(service, root_id)
             if f['mimeType'] == 'application/vnd.google-apps.folder'
         ]
 
-        if target_name:
-            project_folders = [f for f in project_folders if f['name'] == target_name]
-            if not project_folders:
-                raise CommandError(f'No GDrive folder named "{target_name}" found in portfolio root.')
+        if target:
+            to_sync = [f for f in all_folders if f['name'] == target]
+            if not to_sync:
+                raise CommandError(f'No folder named "{target}" in portfolio root.')
+            changed_folder_ids = {f['id'] for f in to_sync}
+            new_page_token = None
+        elif full:
+            to_sync = all_folders
+            changed_folder_ids = {f['id'] for f in all_folders}
+            new_page_token = None
+        else:
+            # Incremental — use Changes API
+            state, _ = SyncState.objects.get_or_create(key=PAGE_TOKEN_KEY)
+            if not state.value:
+                # First run: full scan, then store token
+                self.stdout.write('First run — full scan to initialise change token.')
+                to_sync = all_folders
+                changed_folder_ids = {f['id'] for f in all_folders}
+                new_page_token = _get_start_token(service)
+            else:
+                changed_ids, new_page_token = _get_changed_folder_ids(
+                    service, state.value, root_id
+                )
+                to_sync = [f for f in all_folders if f['id'] in changed_ids
+                           or any(f['id'] == cid for cid in changed_ids)]
+                # Also catch new folders (their parent = root_id is in changed_ids)
+                if root_id in changed_ids:
+                    to_sync = all_folders  # root changed → rescan all
+                changed_folder_ids = changed_ids
 
-        self.stdout.write(f'Found {len(project_folders)} project folder(s)')
+        self.stdout.write(
+            f'Portfolio root: {root_id}\n'
+            f'Total folders in root: {len(all_folders)}\n'
+            f'Folders to sync: {len(to_sync)}'
+        )
 
-        synced_gdrive_ids = set()
+        synced_gdrive_ids = {f['id'] for f in all_folders}  # all live folders
 
-        for folder in project_folders:
+        for folder in to_sync:
             folder_name = folder['name']
-            folder_gdrive_id = folder['id']
-            synced_gdrive_ids.add(folder_gdrive_id)
+            folder_id = folder['id']
 
-            self.stdout.write(f'\n  -> {folder_name}')
-
+            parsed_name, parsed_cat, parsed_loc, parsed_year = _parse_folder_name(folder_name)
+            self.stdout.write(f'\n  → {folder_name}')
             if dry_run:
+                self.stdout.write(f'     name={parsed_name} cat={parsed_cat} loc={parsed_loc} year={parsed_year}')
                 continue
 
             project, created = Project.objects.get_or_create(
-                gdrive_folder_id=folder_gdrive_id,
+                gdrive_folder_id=folder_id,
                 defaults={
-                    'name': folder_name,
+                    'name': parsed_name,
                     'gdrive_folder_name': folder_name,
-                    'slug': slugify(folder_name),
+                    'slug': slugify(parsed_name),
+                    'category': parsed_cat,
+                    'location': parsed_loc,
+                    'year': parsed_year,
                 }
             )
 
+            # On rename: update parsed fields
             if not created and project.gdrive_folder_name != folder_name:
-                # Folder was renamed in Drive — update display name but keep slug
                 project.gdrive_folder_name = folder_name
-                project.name = folder_name
+                project.name = parsed_name
+                if parsed_cat:
+                    project.category = parsed_cat
+                if parsed_loc:
+                    project.location = parsed_loc
+                if parsed_year:
+                    project.year = parsed_year
 
-            self._sync_project_contents(service, project, folder_gdrive_id, force)
+            self._sync_contents(service, project, folder_id, full, created)
 
             project.last_synced = timezone.now()
+            project.is_active = True
             project.save()
 
-            self.stdout.write(self.style.SUCCESS(f'     OK: {project.name} ({project.images.count()} images)'))
+            self.stdout.write(self.style.SUCCESS(
+                f'     ✓ {project.name}  [{project.images.count()} images]'
+            ))
 
-        # Mark projects whose Drive folders are gone as inactive
-        if not target_name and not dry_run:
+        # Deactivate projects whose Drive folders were deleted
+        if not target and not dry_run:
             gone = Project.objects.exclude(gdrive_folder_id__in=synced_gdrive_ids).filter(is_active=True)
-            if gone.exists():
-                self.stdout.write(self.style.WARNING(f'\nDeactivating {gone.count()} project(s) no longer in Drive:'))
-                for p in gone:
-                    self.stdout.write(f'  - {p.name}')
-                gone.update(is_active=False)
+            for p in gone:
+                p.is_active = False
+                p.save()
+                self.stdout.write(self.style.WARNING(f'  ✗ Deactivated: {p.name}'))
+
+        # Save new page token
+        if not dry_run and new_page_token:
+            state, _ = SyncState.objects.get_or_create(key=PAGE_TOKEN_KEY)
+            state.value = new_page_token
+            state.save()
 
         self.stdout.write(self.style.SUCCESS('\nSync complete.'))
 
-    def _sync_project_contents(self, service, project, folder_id, force):
+    # ── Folder content sync ───────────────────────────────────────────────
+
+    def _sync_contents(self, service, project, folder_id, force, is_new):
         from apps.portfolio.models import ProjectImage, ProjectDocument
+        from apps.portfolio.models import _parse_folder_name
 
-        children = list(_list_children(service, folder_id))
-        synced_image_ids = set()
-        synced_doc_ids = set()
+        children = _list_children(service, folder_id)
+        synced_img_ids, synced_doc_ids = set(), set()
+        info_overrides = {}
+        pending_images = []  # (item, subfolder_name_or_None)
+        pending_docs = []
 
+        # First pass — collect info.txt / description files, queue images
         for item in children:
             mime = item['mimeType']
             name = item['name']
-            file_id = item['id']
 
-            # Recurse into subfolders (images only)
             if mime == 'application/vnd.google-apps.folder':
-                sub_children = list(_list_children(service, file_id))
-                for sub in sub_children:
+                # Recurse one level for subfolder images
+                for sub in _list_children(service, item['id']):
                     if sub['mimeType'] in IMAGE_MIMETYPES:
-                        img_id = self._sync_image(service, project, sub, force)
-                        if img_id:
-                            synced_image_ids.add(img_id)
+                        pending_images.append((sub, name))
+                continue
+
+            if name.lower() in ('info.txt', 'info.json'):
+                data = _download(service, item['id'])
+                if name.lower().endswith('.json'):
+                    try:
+                        info_overrides = json.loads(data.decode('utf-8', errors='replace'))
+                    except Exception:
+                        pass
+                else:
+                    info_overrides = _parse_info_txt(data.decode('utf-8', errors='replace'))
                 continue
 
             if mime in IMAGE_MIMETYPES:
-                img_id = self._sync_image(service, project, item, force)
-                if img_id:
-                    synced_image_ids.add(img_id)
-
+                pending_images.append((item, None))
             elif mime in TEXT_MIMETYPES or name.lower().endswith(('.txt', '.md')):
-                doc_id = self._sync_document(service, project, item, force)
-                if doc_id:
-                    synced_doc_ids.add(doc_id)
+                pending_docs.append(item)
 
-        # Remove images/docs that were deleted from Drive
-        gone_images = project.images.exclude(gdrive_file_id__in=synced_image_ids)
-        for img in gone_images:
-            img.image.delete(save=False)
-            img.delete()
+        # Apply info.txt overrides (only if set — don't blank existing admin edits)
+        changed = False
+        if 'category' in info_overrides and info_overrides['category']:
+            project.category = info_overrides['category']; changed = True
+        if 'location' in info_overrides and info_overrides['location']:
+            project.location = info_overrides['location']; changed = True
+        if 'year' in info_overrides and info_overrides['year']:
+            try:
+                project.year = int(str(info_overrides['year'])[:4]); changed = True
+            except (ValueError, TypeError):
+                pass
+        if 'featured' in info_overrides:
+            project.is_featured = str(info_overrides['featured']).lower() in ('yes', 'true', '1')
+            changed = True
+        if 'description' in info_overrides and info_overrides['description']:
+            project.description = info_overrides['description']
+            project.description_html = f'<p>{info_overrides["description"]}</p>'
+            changed = True
 
-        project.documents.exclude(gdrive_file_id__in=synced_doc_ids).delete()
+        # Sort images by our cover/numeric/alpha order
+        pending_images.sort(key=lambda t: _image_order(t[0]['name']))
 
-        # Auto-set cover to first image named 'cover*' or just the first image
-        if not project.cover_image_id:
-            cover = project.images.filter(
-                original_filename__icontains='cover'
-            ).first() or project.images.first()
+        # Sync images
+        for order_idx, (item, subfolder) in enumerate(pending_images):
+            file_id = item['id']
+            mod_time = item.get('modifiedTime', '')
+            existing = ProjectImage.objects.filter(gdrive_file_id=file_id).first()
+
+            # Skip download if unchanged (unless force)
+            if existing and not force and existing.gdrive_modified_time == mod_time:
+                synced_img_ids.add(file_id)
+                continue
+
+            caption = subfolder.replace('_', ' ').replace('-', ' ').title() if subfolder else ''
+            is_cover = _is_cover_filename(item['name']) or (order_idx == 0 and not existing)
+
+            self.stdout.write(f'     ↓ {item["name"]}')
+            data = _download(service, file_id)
+            ext = Path(item['name']).suffix or '.jpg'
+            django_path = f'portfolio/images/{project.slug}_{file_id}{ext}'
+
+            if existing:
+                existing.image.delete(save=False)
+                existing.image.save(django_path, ContentFile(data), save=False)
+                existing.original_filename = item['name']
+                existing.gdrive_modified_time = mod_time
+                existing.order = order_idx
+                existing.caption = caption or existing.caption
+                existing.is_cover = is_cover
+                existing.save()
+            else:
+                img = ProjectImage(
+                    project=project,
+                    gdrive_file_id=file_id,
+                    original_filename=item['name'],
+                    gdrive_modified_time=mod_time,
+                    order=order_idx,
+                    caption=caption,
+                    is_cover=is_cover,
+                )
+                img.image.save(django_path, ContentFile(data), save=False)
+                img.save()
+
+            synced_img_ids.add(file_id)
+
+        # Auto-assign cover: prefer is_cover flag, then order=0
+        if not project.cover_image_id or not ProjectImage.objects.filter(
+            pk=project.cover_image_id
+        ).exists():
+            cover = (
+                project.images.filter(is_cover=True).first()
+                or project.images.order_by('order').first()
+            )
             if cover:
                 project.cover_image = cover
+                changed = True
 
-    def _sync_image(self, service, project, item, force):
-        from apps.portfolio.models import ProjectImage
+        # Sync text documents
+        for item in pending_docs:
+            file_id = item['id']
+            mod_time = item.get('modifiedTime', '')
+            existing = ProjectDocument.objects.filter(gdrive_file_id=file_id).first()
 
-        file_id = item['id']
-        filename = item['name']
+            if existing and not force and existing.gdrive_modified_time == mod_time:
+                synced_doc_ids.add(file_id)
+                continue
 
-        existing = ProjectImage.objects.filter(gdrive_file_id=file_id).first()
-        if existing and not force:
-            return file_id
+            self.stdout.write(f'     ↓ {item["name"]}')
+            data = _download(service, file_id)
+            text, html = _parse_text(data, item['name'])
+            name_lower = item['name'].lower()
 
-        self.stdout.write(f'     Downloading image: {filename}')
-        data = _download_file(service, file_id)
+            # Promote to project description if it looks like the main copy
+            if any(k in name_lower for k in ('description', 'about', 'overview')):
+                if not info_overrides.get('description'):  # don't override info.txt
+                    project.description = text
+                    project.description_html = html
+                    changed = True
 
-        ext = Path(filename).suffix or '.jpg'
-        django_filename = f'portfolio/images/{project.slug}_{file_id}{ext}'
+            if existing:
+                existing.content = text
+                existing.content_html = html
+                existing.gdrive_modified_time = mod_time
+                existing.original_filename = item['name']
+                existing.save()
+            else:
+                ProjectDocument.objects.create(
+                    project=project,
+                    gdrive_file_id=file_id,
+                    original_filename=item['name'],
+                    gdrive_modified_time=mod_time,
+                    content=text,
+                    content_html=html,
+                )
+            synced_doc_ids.add(file_id)
 
-        if existing:
-            existing.image.delete(save=False)
-            existing.image.save(django_filename, ContentFile(data), save=False)
-            existing.original_filename = filename
-            existing.save()
-        else:
-            img = ProjectImage(
-                project=project,
-                gdrive_file_id=file_id,
-                original_filename=filename,
-                is_cover=filename.lower().startswith('cover'),
-            )
-            img.image.save(django_filename, ContentFile(data), save=False)
-            img.save()
+        # Remove files deleted from Drive
+        gone_imgs = project.images.exclude(gdrive_file_id__in=synced_img_ids)
+        for img in gone_imgs:
+            img.image.delete(save=False)
+            img.delete()
+        project.documents.exclude(gdrive_file_id__in=synced_doc_ids).delete()
 
-        return file_id
-
-    def _sync_document(self, service, project, item, force):
-        from apps.portfolio.models import ProjectDocument
-        import markdown as md_lib
-
-        file_id = item['id']
-        filename = item['name']
-
-        existing = ProjectDocument.objects.filter(gdrive_file_id=file_id).first()
-        if existing and not force:
-            return file_id
-
-        self.stdout.write(f'     Downloading doc: {filename}')
-        data = _download_file(service, file_id)
-        text, html = _parse_text(data, filename)
-
-        if existing:
-            existing.content = text
-            existing.content_html = html
-            existing.original_filename = filename
-            existing.save()
-        else:
-            ProjectDocument.objects.create(
-                project=project,
-                gdrive_file_id=file_id,
-                original_filename=filename,
-                content=text,
-                content_html=html,
-            )
-
-        # If this looks like the main description, promote it to Project.description
-        if 'description' in filename.lower() or 'about' in filename.lower():
-            project.description = text
-            project.description_html = html
-
-        return file_id
+        if changed:
+            project.save(update_fields=[
+                'category', 'location', 'year', 'is_featured',
+                'description', 'description_html', 'cover_image',
+            ])
