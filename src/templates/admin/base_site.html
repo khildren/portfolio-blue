@@ -1,31 +1,15 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block footer %}
+{% block extrahead %}
 {{ block.super }}
-<div class="bs-admin-footer">
-  <div class="bs-admin-footer__inner">
-    <a href="https://blue.communityplaylist.com/" target="_blank" class="bs-admin-footer__link">
-      🏛️ View Site
-    </a>
-    <span class="bs-admin-footer__divider">|</span>
-    <a href="/admin/help/" class="bs-admin-footer__link">
-      ❓ How To Guide
-    </a>
-    <span class="bs-admin-footer__divider">|</span>
-    <a href="/admin/portfolio/project/" class="bs-admin-footer__link">
-      📁 Projects
-    </a>
-  </div>
-</div>
-
 <style>
   .bs-admin-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 999999;
     background: linear-gradient(90deg, #1a2332 0%, #2c4a6e 100%);
     padding: 10px 24px;
     display: flex;
@@ -48,7 +32,20 @@
   }
   .bs-admin-footer__link:hover { color: #fff !important; }
   .bs-admin-footer__divider { color: #4a6a8a; font-size: .75rem; }
-  /* Push page content up so footer doesn't cover it */
-  #content-main, #content { padding-bottom: 52px; }
+  body { padding-bottom: 52px !important; }
 </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var bar = document.createElement('div');
+    bar.className = 'bs-admin-footer';
+    bar.innerHTML = '<div class="bs-admin-footer__inner">'
+      + '<a href="https://blue.communityplaylist.com/" target="_blank" class="bs-admin-footer__link">🏛️ View Site</a>'
+      + '<span class="bs-admin-footer__divider">|</span>'
+      + '<a href="/admin/help/" class="bs-admin-footer__link">❓ How To Guide</a>'
+      + '<span class="bs-admin-footer__divider">|</span>'
+      + '<a href="/admin/portfolio/project/" class="bs-admin-footer__link">📁 Projects</a>'
+      + '</div>';
+    document.body.appendChild(bar);
+  });
+</script>
 {% endblock %}

@@ -8,7 +8,7 @@ services:
       - ./src:/app
       - ./media:/app/media
       - ./staticfiles:/app/staticfiles
-      - ./gdrive_credentials.json:/app/gdrive_credentials.json:ro
+      - ./secrets:/app/secrets:ro
     networks:
       - traefik
     labels:
