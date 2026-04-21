@@ -30,21 +30,41 @@ def _run_sync(project_name=None, full=False):
     call_command('sync_portfolio', **kwargs)
 
 
+def _credentials_exist():
+    from django.conf import settings
+    import os
+    return os.path.exists(settings.GDRIVE_CREDENTIALS_FILE)
+
+
 @admin.action(description='↻ Sync selected projects from Google Drive')
 def sync_selected(modeladmin, request, queryset):
+    if not _credentials_exist():
+        messages.error(
+            request,
+            '⚠️ Google Drive credentials not found. '
+            'Follow the How To Guide → GDrive Setup to connect your account.'
+        )
+        return
     for project in queryset:
         try:
             _run_sync(project_name=project.gdrive_folder_name)
-            messages.success(request, f'Synced: {project.name}')
+            messages.success(request, f'✓ Synced: {project.name}')
         except Exception as e:
             messages.error(request, f'Error syncing {project.name}: {e}')
 
 
 @admin.action(description='↻ Full sync ALL projects from Google Drive')
 def sync_all(modeladmin, request, queryset):
+    if not _credentials_exist():
+        messages.error(
+            request,
+            '⚠️ Google Drive credentials not found. '
+            'Follow the How To Guide → GDrive Setup to connect your account.'
+        )
+        return
     try:
         _run_sync(full=True)
-        messages.success(request, 'Full sync complete.')
+        messages.success(request, '✓ Full sync complete.')
     except Exception as e:
         messages.error(request, f'Sync error: {e}')
 

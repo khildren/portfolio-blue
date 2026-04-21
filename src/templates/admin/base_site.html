@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block footer %}
+{{ block.super }}
+<div class="bs-admin-footer">
+  <div class="bs-admin-footer__inner">
+    <a href="https://blue.communityplaylist.com/" target="_blank" class="bs-admin-footer__link">
+      🏛️ View Site
+    </a>
+    <span class="bs-admin-footer__divider">|</span>
+    <a href="/admin/help/" class="bs-admin-footer__link">
+      ❓ How To Guide
+    </a>
+    <span class="bs-admin-footer__divider">|</span>
+    <a href="/admin/portfolio/project/" class="bs-admin-footer__link">
+      📁 Projects
+    </a>
+  </div>
+</div>
+
+<style>
+  .bs-admin-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: linear-gradient(90deg, #1a2332 0%, #2c4a6e 100%);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,.25);
+  }
+  .bs-admin-footer__inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .bs-admin-footer__link {
+    color: #c8d8ed !important;
+    text-decoration: none !important;
+    font-size: .85rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    transition: color .15s;
+  }
+  .bs-admin-footer__link:hover { color: #fff !important; }
+  .bs-admin-footer__divider { color: #4a6a8a; font-size: .75rem; }
+  /* Push page content up so footer doesn't cover it */
+  #content-main, #content { padding-bottom: 52px; }
+</style>
+{% endblock %}
