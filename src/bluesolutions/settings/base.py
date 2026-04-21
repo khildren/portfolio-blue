@@ -105,4 +105,9 @@ JAZZMIN_SETTINGS = {
     'site_brand': 'Blue Solutions',
     'welcome_sign': 'Blue Solutions Admin',
     'copyright': 'Blue Solutions',
+    'topmenu_links': [
+        {'name': '🏛️ View Site', 'url': '/', 'new_window': True},
+        {'name': '❓ How To Guide', 'url': '/admin/help/'},
+    ],
+    'show_ui_builder': False,
 }
