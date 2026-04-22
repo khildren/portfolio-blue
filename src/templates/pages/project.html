@@ -3,6 +3,50 @@
 
 {% block title %}{{ project.name }} | Blue Solutions{% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+<style>
+.bs-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+}
+.bs-gallery-item {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: #111;
+}
+.bs-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+}
+.bs-gallery-item:hover img { transform: scale(1.04); }
+.bs-gallery-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: #fff;
+    font-size: 1.4rem;
+}
+.bs-gallery-item:hover .bs-gallery-overlay { opacity: 1; }
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });</script>
+{% endblock %}
+
 {% block hero_content %}
 
 <body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax">
@@ -83,47 +127,20 @@
                 </div>
                 {% endif %}
 
-                {# Image gallery as swiper slider #}
+                {# Image gallery grid with lightbox #}
                 {% if images %}
-                <div class="p-relative mb-section dsn-container dsn-swiper" data-dsn-option='{"slidesPerView":"1.2","centeredSlides":false,"spaceBetween":60}'>
-                    <div class="swiper-container p-relative w-100">
-                        <div class="swiper-wrapper">
+                <div class="bs-gallery section-padding">
+                    <div class="container">
+                        <div class="bs-gallery-grid">
                             {% for img in images %}
-                            <div class="swiper-slide over-hidden">
-                                <img class="cover-bg-img image-bg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{{ img.image.url }}" alt="{{ img.caption|default:project.name }}">
-                            </div>
+                            <a href="{{ img.image.url }}" class="glightbox bs-gallery-item" data-gallery="project-gallery" data-description="{{ img.caption|default:'' }}">
+                                <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.name }}" loading="lazy">
+                                <div class="bs-gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                            </a>
                             {% endfor %}
-                        </div>
-                        <div class="dsn-pagination mt-30 d-flex justify-content-between">
-                            <div class="swiper-next">
-                                <div class="next-container">
-                                    <div class="container-inner">
-                                        <div class="triangle"></div>
-                                        <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                            <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
-                                                <circle cx="12" cy="12" r="10.5"></circle>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-prev">
-                                <div class="prev-container">
-                                    <div class="container-inner">
-                                        <div class="triangle"></div>
-                                        <svg class="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <g class="circle-wrap" fill="none" stroke-width="1" stroke-linejoin="round" stroke-miterlimit="10">
-                                                <circle cx="12" cy="12" r="10.5"></circle>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                {% endif %}
 
                 {# Next project teaser — first related project #}
                 {% if related %}
