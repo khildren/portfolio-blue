@@ -22,12 +22,12 @@ def home(request):
 def about(request):
     ss = _settings()
     if not ss.page_about:
-        return redirect('main:home')
+        return redirect('portfolio:project_list')
     return render(request, 'pages/about.html')
 
 
 def contact(request):
     ss = _settings()
     if not ss.page_contact:
-        return redirect('main:home')
+        return redirect('portfolio:project_list')
     return render(request, 'pages/contact.html')
