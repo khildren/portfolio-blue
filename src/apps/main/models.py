@@ -92,6 +92,32 @@ class SiteSettings(models.Model):
     social_behance = models.URLField(blank=True, help_text='Full URL e.g. https://behance.net/yourstudio')
     social_dribbble = models.URLField(blank=True, help_text='Full URL e.g. https://dribbble.com/yourstudio')
 
+    # ── Pages On/Off ─────────────────────────────────────────────────────────
+    page_home = models.BooleanField(
+        default=True, help_text='Show the homepage (/) with hero slider and featured projects.')
+    page_about = models.BooleanField(
+        default=True, help_text='Show the About page (/about/).')
+    page_portfolio = models.BooleanField(
+        default=True, help_text='Show the Portfolio page (/portfolio/).')
+    page_contact = models.BooleanField(
+        default=True, help_text='Show the Contact page (/contact/).')
+
+    # ── Homepage Sections On/Off ──────────────────────────────────────────────
+    section_about = models.BooleanField(
+        default=True, help_text='Show the About Studio section on the homepage.')
+    section_services = models.BooleanField(
+        default=True, help_text='Show the Services/Features strip on the homepage.')
+    section_works = models.BooleanField(
+        default=True, help_text='Show the Our Works project slider on the homepage.')
+    section_video = models.BooleanField(
+        default=True, help_text='Show the video/awards block on the homepage.')
+    section_testimonials = models.BooleanField(
+        default=True, help_text='Show the client testimonials carousel on the homepage.')
+    section_blog = models.BooleanField(
+        default=False, help_text='Show the Latest News/Blog section on the homepage.')
+    section_contact_cta = models.BooleanField(
+        default=True, help_text='Show the "Let\'s Talk" contact call-to-action at the bottom of the homepage.')
+
     # ── Footer ────────────────────────────────────────────────────────────────
     footer_tagline = models.CharField(
         max_length=200, blank=True,

@@ -85,6 +85,22 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                 'map_embed_url',
             ),
         }),
+        ('🔀  Pages — Turn On / Off', {
+            'description': (
+                '<strong>Toggle entire pages on or off.</strong> '
+                'Turned-off pages redirect visitors to the homepage. '
+                'Nav links for disabled pages are hidden automatically.'
+            ),
+            'fields': ('page_home', 'page_about', 'page_portfolio', 'page_contact'),
+        }),
+        ('📐  Homepage Sections — Turn On / Off', {
+            'description': 'Control which sections appear on your homepage. Changes take effect immediately.',
+            'fields': (
+                'section_about', 'section_services', 'section_works',
+                'section_video', 'section_testimonials', 'section_blog',
+                'section_contact_cta',
+            ),
+        }),
         ('🔗  Social Media', {
             'description': 'Paste full URLs (e.g. https://instagram.com/yourstudio). Leave blank to hide the icon.',
             'classes': ('collapse',),

@@ -86,24 +86,23 @@
             </div>
 
             <div class="wrapper">
-                <section class="about-block section-padding over-hidden  background-section">
+                {% if ss.section_about %}
+                <section class="about-block section-padding over-hidden background-section">
                     <div class="container">
-
-                        <!-- Components/Demos/index/about.html -->
                         {% include 'Components/Demos/index/about.html' %}
-
                     </div>
                 </section>
+                {% endif %}
 
+                {% if ss.section_services %}
                 <section class="features v-dark-head v-light-head-mobile-sm">
                     <div class="list-features">
-
-                        <!-- Components/Demos/index/service.html -->
                         {% include 'Components/Demos/index/service.html' %}
-
                     </div>
                 </section>
+                {% endif %}
 
+                {% if ss.section_works %}
                 <section class="last-project-section section-margin dsn-swiper" data-dsn-controller=".project-content" data-dsn-option='{"slidesPerView":1,"centeredSlides":false }'>
                     <div class="container">
                         <div class="mb-70 p-relative">
@@ -174,11 +173,13 @@
                         </div>
                     </div>
                 </section>
+                {% endif %}
 
+                {% if ss.section_video %}
                 <div class="box-seat overflow-hidden">
                     <div class="dsn-v-text">
                         <div class="box-middle-text">
-                            <a href="https://vimeo.com/175353205" class="vid">
+                            <a href="{{ ss.hero_video_url }}" class="vid">
                                 <span class="btn-play-inner">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
                                         <circle class="stroke" stroke-linecap="round" cx="98.5" cy="98.6" r="80">
@@ -240,6 +241,9 @@
                     </div>
                 </div>
 
+                {% endif %}
+
+                {% if ss.section_testimonials %}
                 <section class="testimonials-2 section-margin p-relative dsn-swiper"
                     data-dsn-option='{"autoHeight" : "auto"}' data-dsn-controller=".testimonial-content">
                     <div class="container">
@@ -275,7 +279,9 @@
                         </div>
                     </div>
                 </section>
+                {% endif %}
 
+                {% if ss.section_blog %}
                 <div class="our-blog p-relative section-padding v-dark">
                     <div class="container mb-70 p-relative">
                         <h5 class="sub-heading mb-15 pb-15">our blog</h5>
@@ -293,6 +299,7 @@
                     </div>
 
                 </div>
+                {% endif %}
 
                 <div class="brand skills-circular p-relative" data-dsn-title="Skills" data-dsn-animate="section">
 
@@ -325,17 +332,15 @@
                     </div>
                 </div>
 
+                {% if ss.section_contact_cta %}
                 <section class="next-page section-padding background-section">
                     <div class="container">
-                        
-                        <!-- Components/Demos/index/our-contact.html -->
                         {% include 'Components/Demos/index/our-contact.html' %}
-
                     </div>
                 </section>
+                {% endif %}
             </div>
 
-            <!-- Footer Section -->
             {% include 'Base/footer.html' %}
 
         </div>
