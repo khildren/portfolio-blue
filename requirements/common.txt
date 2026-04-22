@@ -9,6 +9,7 @@ psycopg2-binary==2.9.10
 
 # Images / Files
 Pillow==11.1.0
+pillow-heif==1.3.0
 
 # Assets
 whitenoise==6.9.0

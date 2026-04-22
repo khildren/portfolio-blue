@@ -59,6 +59,13 @@ try:
 except ImportError:
     HAS_GOOGLE = False
 
+try:
+    import pillow_heif
+    pillow_heif.register_heif_opener()
+    HAS_HEIF = True
+except ImportError:
+    HAS_HEIF = False
+
 IMAGE_MIMETYPES = {
     'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff',
     'image/heic', 'image/heif',  # iOS / iPhone photos
@@ -96,6 +103,22 @@ def _list_children(service, folder_id):
         if not token:
             break
     return items
+
+
+def _maybe_convert_heic(data, filename):
+    """Convert HEIC/HEIF bytes to JPEG. Returns (data, filename)."""
+    ext = Path(filename).suffix.lower()
+    if ext not in ('.heic', '.heif'):
+        return data, filename
+    if not HAS_HEIF:
+        return data, filename
+    from PIL import Image
+    img = Image.open(io.BytesIO(data))
+    buf = io.BytesIO()
+    img.convert('RGB').save(buf, format='JPEG', quality=90)
+    buf.seek(0)
+    new_name = Path(filename).stem + '.jpg'
+    return buf.read(), new_name
 
 
 def _collect_images(service, folder_id, subfolder_label=None):
@@ -404,7 +427,8 @@ class Command(BaseCommand):
 
             self.stdout.write(f'     ↓ {item["name"]}')
             data = _download(service, file_id)
-            ext = Path(item['name']).suffix or '.jpg'
+            data, saved_name = _maybe_convert_heic(data, item['name'])
+            ext = Path(saved_name).suffix or '.jpg'
             django_path = f'{project.slug}_{file_id}{ext}'
 
             if existing:
