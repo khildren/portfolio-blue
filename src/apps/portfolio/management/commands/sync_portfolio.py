@@ -405,7 +405,7 @@ class Command(BaseCommand):
             self.stdout.write(f'     ↓ {item["name"]}')
             data = _download(service, file_id)
             ext = Path(item['name']).suffix or '.jpg'
-            django_path = f'portfolio/images/{project.slug}_{file_id}{ext}'
+            django_path = f'{project.slug}_{file_id}{ext}'
 
             if existing:
                 existing.image.delete(save=False)
