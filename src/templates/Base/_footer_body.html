@@ -5,10 +5,18 @@
             <div class="col-md-2 footer-block-item">
                 <div class="footer-block block-logo">
                     <a href="{% url 'main:home' %}" class="logo-footer m-auto">
-                        <img src="{% if ss.logo %}{{ ss.logo.url }}{% else %}{% static 'app/img/logo.png' %}{% endif %}"
-                             alt="{{ ss.site_name }}" class="logo-dark cover-bg-img">
-                        <img src="{% if ss.logo_light %}{{ ss.logo_light.url }}{% else %}{% static 'app/img/logo-dark.png' %}{% endif %}"
-                             alt="{{ ss.site_name }}" class="logo-light cover-bg-img">
+                        {% if ss.logo %}
+                        <img src="{{ ss.logo.url }}" alt="{{ ss.site_name }}" class="logo-dark cover-bg-img">
+                        {% else %}
+                        <span class="logo-dark" style="font-size:1.1rem;font-weight:700;letter-spacing:.05em;">{{ ss.site_name }}</span>
+                        {% endif %}
+                        {% if ss.logo_light %}
+                        <img src="{{ ss.logo_light.url }}" alt="{{ ss.site_name }}" class="logo-light cover-bg-img">
+                        {% elif ss.logo %}
+                        <img src="{{ ss.logo.url }}" alt="{{ ss.site_name }}" class="logo-light cover-bg-img">
+                        {% else %}
+                        <span class="logo-light" style="font-size:1.1rem;font-weight:700;letter-spacing:.05em;">{{ ss.site_name }}</span>
+                        {% endif %}
                     </a>
                 </div>
             </div>

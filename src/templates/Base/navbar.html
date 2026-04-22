@@ -2,30 +2,14 @@
 <!-- Loading Page -->
 <div class="preloader">
     <div class="dsnload p-absolute">
-        <span class="dsnload__row">
+        {% for i in "1234" %}
+        <span class="dsnload__row{% if not forloop.first %} dsnload__row--sibling{% endif %}">
             <span class="dsnload__img">
-                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="{{ ss.site_name }}">
-                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="{{ ss.site_name }}">{% endif %}
+                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="{% if forloop.first %}{{ ss.site_name }}{% endif %}">
+                {% else %}<span style="font-weight:700;font-size:1rem;letter-spacing:.05em;">{{ ss.site_name }}</span>{% endif %}
             </span>
         </span>
-        <span class="dsnload__row dsnload__row--sibling">
-            <span class="dsnload__img">
-                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
-                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
-            </span>
-        </span>
-        <span class="dsnload__row dsnload__row--sibling">
-            <span class="dsnload__img">
-                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
-                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
-            </span>
-        </span>
-        <span class="dsnload__row dsnload__row--sibling">
-            <span class="dsnload__img">
-                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
-                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
-            </span>
-        </span>
+        {% endfor %}
     </div>
 
     <div class="loading-circle">
@@ -44,10 +28,21 @@
         <div class="inner-header p-relative">
             <div class="main-logo">
                 <a href="{% url 'main:home' %}" data-dsn="parallax">
+                    {% if ss.logo %}
                     <img class="light-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                        data-dsn-src="{% if ss.logo %}{{ ss.logo.url }}{% else %}{% static 'app/img/logo.png' %}{% endif %}" alt="{{ ss.site_name }}" />
+                        data-dsn-src="{{ ss.logo.url }}" alt="{{ ss.site_name }}" />
+                    {% else %}
+                    <span class="light-logo" style="font-size:1.2rem;font-weight:700;letter-spacing:.05em;">{{ ss.site_name }}</span>
+                    {% endif %}
+                    {% if ss.logo_light %}
                     <img class="dark-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                        data-dsn-src="{% if ss.logo_light %}{{ ss.logo_light.url }}{% else %}{% static 'app/img/logo-dark.png' %}{% endif %}" alt="{{ ss.site_name }}" />
+                        data-dsn-src="{{ ss.logo_light.url }}" alt="{{ ss.site_name }}" />
+                    {% elif ss.logo %}
+                    <img class="dark-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-dsn-src="{{ ss.logo.url }}" alt="{{ ss.site_name }}" />
+                    {% else %}
+                    <span class="dark-logo" style="font-size:1.2rem;font-weight:700;letter-spacing:.05em;">{{ ss.site_name }}</span>
+                    {% endif %}
                 </a>
             </div>
         </div>
