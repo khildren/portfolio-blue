@@ -59,7 +59,10 @@ try:
 except ImportError:
     HAS_GOOGLE = False
 
-IMAGE_MIMETYPES = {'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff'}
+IMAGE_MIMETYPES = {
+    'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff',
+    'image/heic', 'image/heif',  # iOS / iPhone photos
+}
 TEXT_MIMETYPES = {'text/plain', 'text/markdown', 'text/x-markdown'}
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 PAGE_TOKEN_KEY = 'gdrive_changes_page_token'
@@ -93,6 +96,20 @@ def _list_children(service, folder_id):
         if not token:
             break
     return items
+
+
+def _collect_images(service, folder_id, subfolder_label=None):
+    """Recursively collect all images under folder_id.
+    Returns list of (item, subfolder_label) tuples."""
+    results = []
+    for item in _list_children(service, folder_id):
+        mime = item['mimeType']
+        if mime == 'application/vnd.google-apps.folder':
+            label = subfolder_label or item['name']
+            results.extend(_collect_images(service, item['id'], label))
+        elif mime in IMAGE_MIMETYPES:
+            results.append((item, subfolder_label))
+    return results
 
 
 def _download(service, file_id):
@@ -330,10 +347,7 @@ class Command(BaseCommand):
             name = item['name']
 
             if mime == 'application/vnd.google-apps.folder':
-                # Recurse one level for subfolder images
-                for sub in _list_children(service, item['id']):
-                    if sub['mimeType'] in IMAGE_MIMETYPES:
-                        pending_images.append((sub, name))
+                pending_images.extend(_collect_images(service, item['id'], name))
                 continue
 
             if name.lower() in ('info.txt', 'info.json'):
