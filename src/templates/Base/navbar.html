@@ -4,22 +4,26 @@
     <div class="dsnload p-absolute">
         <span class="dsnload__row">
             <span class="dsnload__img">
-                <img src="{% static 'app/img/logo.png' %}" alt="">
+                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="{{ ss.site_name }}">
+                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="{{ ss.site_name }}">{% endif %}
             </span>
         </span>
         <span class="dsnload__row dsnload__row--sibling">
             <span class="dsnload__img">
-                <img src="{% static 'app/img/logo.png' %}" alt="">
+                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
+                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
             </span>
         </span>
         <span class="dsnload__row dsnload__row--sibling">
             <span class="dsnload__img">
-                <img src="{% static 'app/img/logo.png' %}" alt="">
+                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
+                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
             </span>
         </span>
         <span class="dsnload__row dsnload__row--sibling">
             <span class="dsnload__img">
-                <img src="{% static 'app/img/logo.png' %}" alt="">
+                {% if ss.logo %}<img src="{{ ss.logo.url }}" alt="">
+                {% else %}<img src="{% static 'app/img/logo.png' %}" alt="">{% endif %}
             </span>
         </span>
     </div>
@@ -40,8 +44,10 @@
         <div class="inner-header p-relative">
             <div class="main-logo">
                 <a href="{% url 'main:home' %}" data-dsn="parallax">
-                    <img class="light-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/logo.png' %}" alt="" />
-                    <img class="dark-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-dsn-src="{% static 'app/img/logo-dark.png' %}" alt="" />
+                    <img class="light-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-dsn-src="{% if ss.logo %}{{ ss.logo.url }}{% else %}{% static 'app/img/logo.png' %}{% endif %}" alt="{{ ss.site_name }}" />
+                    <img class="dark-logo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-dsn-src="{% if ss.logo_light %}{{ ss.logo_light.url }}{% else %}{% static 'app/img/logo-dark.png' %}{% endif %}" alt="{{ ss.site_name }}" />
                 </a>
             </div>
         </div>
@@ -97,7 +103,7 @@
                 <div class="nav__info">
                     <div class="nav-content">
                         <p class="title-line">Studio</p>
-                        <p>Blue Solutions<br>Architecture &amp; Design</p>
+                        <p>{{ ss.site_name }}<br>{{ ss.tagline }}</p>
                     </div>
                     <div class="nav-content">
                         <p class="title-line">Contact</p>

@@ -5,66 +5,69 @@
             <div class="row">
                 <div class="col-md-2 footer-block-item">
                     <div class="footer-block block-logo">
-                        <a href="" class="logo-footer m-auto">
-                            <img src="{% static 'app/img/logo.png' %}" alt="" class="logo-dark cover-bg-img">
-                            <img src="{% static 'app/img/logo-dark.png' %}" alt="" class="logo-light cover-bg-img">
+                        <a href="{% url 'main:home' %}" class="logo-footer m-auto">
+                            <img src="{% if ss.logo %}{{ ss.logo.url }}{% else %}{% static 'app/img/logo.png' %}{% endif %}"
+                                 alt="{{ ss.site_name }}" class="logo-dark cover-bg-img">
+                            <img src="{% if ss.logo_light %}{{ ss.logo_light.url }}{% else %}{% static 'app/img/logo-dark.png' %}{% endif %}"
+                                 alt="{{ ss.site_name }}" class="logo-light cover-bg-img">
                         </a>
                     </div>
                 </div>
 
                 <div class="col-md-3 footer-block-item">
                     <div class="footer-block">
-                        <p class="subtitle p-relative line-shap  line-shap-after mb-20">
+                        <p class="subtitle p-relative line-shap line-shap-after mb-20">
                             <span class="pl-10 pr-10 background-section heading-color text-uppercase">ADDRESS</span>
                         </p>
-                        <p>26-30 New Damietta <br>
-                            El-Mahalla El-Kubra, SK1 66LM</p>
+                        {% if ss.contact_address %}
+                            <p>{{ ss.contact_address }}<br>{{ ss.contact_city }}</p>
+                        {% endif %}
+                        {% if ss.contact_phone %}
+                            <p><a href="tel:{{ ss.contact_phone }}">{{ ss.contact_phone }}</a></p>
+                        {% endif %}
+                        {% if ss.contact_email %}
+                            <p><a href="mailto:{{ ss.contact_email }}">{{ ss.contact_email }}</a></p>
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="col-md-3 footer-block-item">
                     <div class="footer-block col-menu">
-                        <p class="subtitle p-relative line-shap  line-shap-after mb-20">
+                        <p class="subtitle p-relative line-shap line-shap-after mb-20">
                             <span class="pl-10 pr-10 background-section heading-color text-uppercase">NAVIGATION</span>
                         </p>
-
                         <ul>
-                            <li><a href="#">Portfolio</a>
-                            </li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{% url 'portfolio:project_list' %}">Portfolio</a></li>
+                            <li><a href="{% url 'main:about' %}">About</a></li>
+                            <li><a href="{% url 'main:contact' %}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-4 footer-block-item">
                     <div class="footer-block soical-block">
+                        {% if ss.footer_tagline %}
+                            <p class="mb-20">{{ ss.footer_tagline }}</p>
+                        {% endif %}
                         <ul class="socials">
-                            <li>
-                                <a href="" target="_blank">
-                                    <i class="fab fa-dribbble"></i>
-                                    <span>Db</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" target="_blank">
-                                    <i class="fab fa-twitter"></i>
-                                    <span>Tw</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" target="_blank">
-                                    <i class="fab fa-behance"></i>
-                                    <span>Be</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" target="_blank">
-                                    <i class="fab fa-facebook-f"></i>
-                                    <span>Fb</span>
-                                </a>
-                            </li>
+                            {% if ss.social_instagram %}
+                            <li><a href="{{ ss.social_instagram }}" target="_blank"><i class="fab fa-instagram"></i><span>Ig</span></a></li>
+                            {% endif %}
+                            {% if ss.social_dribbble %}
+                            <li><a href="{{ ss.social_dribbble }}" target="_blank"><i class="fab fa-dribbble"></i><span>Db</span></a></li>
+                            {% endif %}
+                            {% if ss.social_twitter %}
+                            <li><a href="{{ ss.social_twitter }}" target="_blank"><i class="fab fa-twitter"></i><span>Tw</span></a></li>
+                            {% endif %}
+                            {% if ss.social_behance %}
+                            <li><a href="{{ ss.social_behance }}" target="_blank"><i class="fab fa-behance"></i><span>Be</span></a></li>
+                            {% endif %}
+                            {% if ss.social_facebook %}
+                            <li><a href="{{ ss.social_facebook }}" target="_blank"><i class="fab fa-facebook-f"></i><span>Fb</span></a></li>
+                            {% endif %}
+                            {% if ss.social_linkedin %}
+                            <li><a href="{{ ss.social_linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i><span>Li</span></a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -72,10 +75,9 @@
 
             <div class="footer-credits border-top pt-30 mt-30">
                 <div class="block">
-                    <p class="copyright">© <script>document.write(new Date().getFullYear())</script> Arctit. Develop with <i class="mdi mdi-heart text-danger"></i> by <a href="https://shreethemes.in" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                    <p class="copyright">© <script>document.write(new Date().getFullYear())</script> {{ ss.copyright_name }}. All rights reserved.</p>
                 </div>
             </div>
         </div>
-
     </div>
 </footer>

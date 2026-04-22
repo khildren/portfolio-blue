@@ -2,50 +2,43 @@
 <div class="d-grid grid-lg-2">
     <div class="box-text">
         <div class="mb-30 p-relative">
-            <h5 class="sub-heading mb-15 pb-15">About STUDIO</h5>
-            <h2 class="section-title text-uppercase">Welcome! <strong> We are architet studio</strong>
-            </h2>
+            <h5 class="sub-heading mb-15 pb-15">{{ ss.about_label }}</h5>
+            <h2 class="section-title text-uppercase">{{ ss.about_heading }}</h2>
         </div>
 
-        <p class="max-w570 dsn-up mb-10 ">
-            Founded in 2000, Dsn Grid has become one of the best Digital Agency in Shreethemes.
-        </p>
-
-        <p class="max-w570 dsn-up">
-            Blue money going forward, but deploy to production. First-order optimal strategies build on a culture of contribution and inclusion so those options
-        </p>
+        {% if ss.about_text %}
+            <p class="max-w570 dsn-up mb-10">{{ ss.about_text }}</p>
+        {% else %}
+            <p class="max-w570 dsn-up mb-10">
+                Founded in {{ ss.founded_year }}, {{ ss.site_name }} brings {{ ss.years_experience }}+ years of expertise in architecture and interior design to every project.
+            </p>
+        {% endif %}
 
         <div class="process-block background-main mt-30">
-            <span>Idea & Start</span>
-            <span>Design & Crate</span>
-            <span>Build & finish</span>
-        </div>
-
-        <div class="d-grid grid-sm-2 d-grid-no-space mt-30 ">
-            <ul class="lest-icon">
-                <li>Wretium in metus</li>
-                <li>Faucibus arcu</li>
-                <li>Mauris fringilla</li>
-            </ul>
-
-            <ul class="lest-icon">
-                <li>Wretium in metus</li>
-                <li>Faucibus arcu erat</li>
-                <li>Mauris fringilla</li>
-            </ul>
+            <span>{{ ss.process_1_title }}</span>
+            <span>{{ ss.process_2_title }}</span>
+            <span>{{ ss.process_3_title }}</span>
         </div>
     </div>
 
     <div class="img-box d-grid grid-sm-2">
         <div class="box-img">
             <div class="inner">
-                <img src="{% static 'app/img/about.jpg' %}" alt="">
+                {% if ss.about_image %}
+                    <img src="{{ ss.about_image.url }}" alt="{{ ss.site_name }} studio">
+                {% else %}
+                    <img src="{% static 'app/img/about.jpg' %}" alt="">
+                {% endif %}
             </div>
         </div>
 
         <div class="box-img d-flex flex-column justify-content-end">
             <div class="inner">
-                <img src="{% static 'app/img/about-2.jpg' %}" alt="">
+                {% if ss.about_image2 %}
+                    <img src="{{ ss.about_image2.url }}" alt="{{ ss.site_name }} studio">
+                {% else %}
+                    <img src="{% static 'app/img/about-2.jpg' %}" alt="">
+                {% endif %}
             </div>
         </div>
     </div>
