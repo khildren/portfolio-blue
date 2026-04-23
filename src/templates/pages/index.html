@@ -6,25 +6,41 @@
 {% block js %}
 <script>
 (function() {
-    var DELAY = 5000; // ms between slides — change this number to adjust
-    function startAutoplay() {
-        // Hero full-screen slider
-        var hero = document.querySelector('.dsn-slider-global .swiper-container');
-        if (hero && hero.swiper) {
-            var s = hero.swiper;
-            s.params.autoplay = { delay: DELAY, disableOnInteraction: false };
-            s.autoplay.start();
+    var DELAY = 5000;
+
+    function tryAutoplay() {
+        var started = 0;
+        // Try via $build.swiper (DSN's own registry)
+        if (window.$build && window.$build.swiper && window.$build.swiper.length) {
+            window.$build.swiper.forEach(function(s) {
+                if (s && s.slideNext) {
+                    try {
+                        s.params.autoplay = { delay: DELAY, disableOnInteraction: false };
+                        s.autoplay && s.autoplay.start();
+                        started++;
+                    } catch(e) {}
+                }
+            });
         }
-        // Works section slider
-        var works = document.querySelector('.last-project-section .bg-project .swiper-container');
-        if (works && works.swiper) {
-            var w = works.swiper;
-            w.params.autoplay = { delay: DELAY, disableOnInteraction: false };
-            w.autoplay.start();
+        // Fallback: manual interval on any swiper-container
+        if (started === 0) {
+            var containers = document.querySelectorAll('.dsn-slider-global .swiper-container, .last-project-section .bg-project .swiper-container');
+            containers.forEach(function(el) {
+                var s = el.swiper;
+                if (s) {
+                    setInterval(function() { s.slideNext(); }, DELAY);
+                    started++;
+                }
+            });
         }
     }
-    // Wait for DSN to finish initialising swipers
-    window.addEventListener('load', function() { setTimeout(startAutoplay, 800); });
+
+    // Try at load, then retry a couple times in case DSN is slow
+    window.addEventListener('load', function() {
+        setTimeout(tryAutoplay, 500);
+        setTimeout(tryAutoplay, 1500);
+        setTimeout(tryAutoplay, 3000);
+    });
 })();
 </script>
 {% endblock %}
