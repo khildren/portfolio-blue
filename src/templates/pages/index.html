@@ -3,6 +3,32 @@
 
 {% block title %}{{ ss.site_name }} | {{ ss.tagline }}{% endblock %}
 
+{% block js %}
+<script>
+(function() {
+    var DELAY = 5000; // ms between slides — change this number to adjust
+    function startAutoplay() {
+        // Hero full-screen slider
+        var hero = document.querySelector('.dsn-slider-global .swiper-container');
+        if (hero && hero.swiper) {
+            var s = hero.swiper;
+            s.params.autoplay = { delay: DELAY, disableOnInteraction: false };
+            s.autoplay.start();
+        }
+        // Works section slider
+        var works = document.querySelector('.last-project-section .bg-project .swiper-container');
+        if (works && works.swiper) {
+            var w = works.swiper;
+            w.params.autoplay = { delay: DELAY, disableOnInteraction: false };
+            w.autoplay.start();
+        }
+    }
+    // Wait for DSN to finish initialising swipers
+    window.addEventListener('load', function() { setTimeout(startAutoplay, 800); });
+})();
+</script>
+{% endblock %}
+
 {% block hero_content %}
 
 <body class="v-light dsn-effect-scroll dsn-cursor-effect dsn-ajax classic-menu">
